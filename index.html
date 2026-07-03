@@ -92,7 +92,13 @@
     transition: text-underline-offset var(--t-fast) var(--ease);
   }
   .nav-links a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
-  @media (max-width: 40rem) { .nav-links { display: none; } }
+  @media (max-width: 40rem) {
+    .nav { flex-wrap: wrap; }
+    .nav-links { width: 100%; justify-content: space-between; gap: 0.6rem; padding-bottom: 0.55rem; }
+    .nav-links a { font-size: 0.85rem; }
+  }
+  main [id] { scroll-margin-top: 4rem; }
+  @media (max-width: 40rem) { main [id] { scroll-margin-top: 6.5rem; } }
 
   /* ---------- Hero ---------- */
   .hero-int { padding-block: clamp(3rem, 8vw, 5.5rem); }
@@ -132,6 +138,7 @@
     flex-wrap: wrap;
     gap: 0.3rem 0.75rem;
   }
+  .hero-datos span { white-space: nowrap; }
   .hero-datos span + span::before { content: "·"; margin-right: 0.75rem; }
   .hero-cta { margin-top: 2rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
   .btn {
@@ -172,6 +179,11 @@
     align-items: start;
   }
   @media (max-width: 48rem) { .sec-grid { grid-template-columns: 1fr; } }
+  .sec-grid > div:first-child {
+    position: sticky;
+    top: 4.5rem;
+    align-self: start;
+  }
   .sec-grid h2 {
     font-weight: 850;
     font-stretch: 118%;
@@ -179,12 +191,9 @@
     line-height: 1.08;
     letter-spacing: -0.015em;
     text-wrap: balance;
-    position: sticky;
-    top: 4.5rem;
   }
-  @media (max-width: 48rem) { .sec-grid h2 { position: static; } }
-  .sec-grid .intro { margin-top: 0.7rem; color: var(--oliva); font-size: 0.95rem; position: sticky; top: 7.5rem; }
-  @media (max-width: 48rem) { .sec-grid .intro { position: static; } }
+  .sec-grid .intro { margin-top: 0.7rem; color: var(--oliva); font-size: 0.95rem; }
+  @media (max-width: 48rem) { .sec-grid > div:first-child { position: static; } }
 
   /* Qué es: lista de definiciones densa */
   .defs { display: grid; gap: 1.4rem; }
@@ -243,6 +252,32 @@
     .acc summary { grid-template-columns: 1fr auto; }
     .acc .clave { display: none; }
   }
+  .acc .cuerpo p { margin: 0; }
+  .acc .pipe {
+    list-style: none;
+    counter-reset: fase;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .acc .pipe li {
+    counter-increment: fase;
+    position: relative;
+    padding-left: 1.7rem;
+  }
+  .acc .pipe li::before {
+    content: counter(fase, upper-alpha);
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--tinta);
+  }
+  .acc .pipe b { font-weight: 700; color: var(--tinta); }
+  .acc .pipe .opt { color: var(--oliva); font-weight: 400; }
 
   /* Flujo: secuencia real sobre lima */
   .flujo ol {
@@ -292,6 +327,9 @@
   }
   .stack-tabla td { font-size: 0.95rem; }
   .stack-tabla .nota { color: rgba(247, 250, 238, 0.6); }
+  @media (max-width: 30rem) {
+    .stack-tabla th { width: auto; min-width: 7rem; padding-right: 0.9rem; white-space: normal; }
+  }
   .panel-tinta .sec-grid h2 { color: var(--lima); }
   .panel-tinta .sec-grid .intro { color: rgba(247, 250, 238, 0.72); line-height: 1.6; }
 
@@ -394,7 +432,7 @@
         <p class="intro">Seis capacidades cubren el ciclo completo, del catálogo a la notificación. Abre cada una para el detalle.</p>
       </div>
       <div class="acc">
-        <details open>
+        <details>
           <summary><span class="clave mono">Catálogo</span><h3>Catálogo taxonómico</h3><span class="marcador" aria-hidden="true">+</span></summary>
           <p class="cuerpo">Jerarquía navegable de familia, género, especie y ejemplar, con fichas e imágenes en cada nivel. Distingue la especie del ejemplar, de modo que una corrección taxonómica se propaga sin rehacer registros.</p>
         </details>
@@ -406,9 +444,18 @@
           <summary><span class="clave mono">Reportes</span><h3>Reportes de campo</h3><span class="marcador" aria-hidden="true">+</span></summary>
           <p class="cuerpo">Observaciones con fotos y mediciones fechadas, organizadas en un árbol de 8 categorías y más de 40 subtipos, encadenadas en una línea de tiempo por ejemplar. Registro diferenciado para plantas herbáceas/arbustivas y árboles (con medición de DAP).</p>
         </details>
-        <details>
+        <details open>
           <summary><span class="clave mono">Georref</span><h3>Georreferenciación de bajo costo</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Dos modos sobre el mismo modelo, sin ArcGIS ni Google Maps: marcado manual sobre la imagen aérea (transformación afín, sin ir al campo) y captura en campo, donde el GPS refina la posición por media ponderada por precisión.</p>
+          <div class="cuerpo">
+            <p>Sin ArcGIS ni Google Maps: la ubicación se resuelve con un modelo matemático propio que corre en el backend. A partir de coordenadas normalizadas [0,1] sobre una imagen aérea del jardín y unos puntos de control (lat/lng):</p>
+            <ol class="pipe">
+              <li><b>Proyección Web Mercator.</b> Los puntos de control pasan a métrico (R = 6 378 137 m).</li>
+              <li><b>Ajuste afín por mínimos cuadrados.</b> Ecuaciones normales resueltas con la regla de Cramer.</li>
+              <li><b>Transformación afín.</b> Lleva cualquier coordenada normalizada de la imagen a Web Mercator.</li>
+              <li><b>Inversa de Mercator.</b> Devuelve la posición a latitud y longitud reales.</li>
+              <li><b>Refinamiento ponderado <span class="opt">(opcional).</span></b> Las lecturas GPS de campo ajustan la posición por media ponderada por precisión (1/σ²) sobre distancias Haversine.</li>
+            </ol>
+          </div>
         </details>
         <details>
           <summary><span class="clave mono">Avisos</span><h3>Suscripciones y notificaciones</h3><span class="marcador" aria-hidden="true">+</span></summary>
