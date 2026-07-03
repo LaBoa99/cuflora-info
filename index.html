@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CuFlora — Flora georreferenciada, del campo a la wiki</title>
-<meta name="description" content="CuFlora: plataforma para registrar, mapear y consultar flora con georreferenciación. Wiki taxonómica, mapas de flora, reportes de campo y notificaciones.">
+<title>CuFlora — Gestión digital de colecciones vivas en jardines etnobiológicos</title>
+<meta name="description" content="CuFlora: plataforma de microservicios para la gestión y trazabilidad de plantas y árboles en jardines etnobiológicos. Catálogo taxonómico, mapas de flora, reportes de campo, georreferenciación de bajo costo y notificaciones.">
 <meta name="theme-color" content="#A6F750">
 <link rel="icon" type="image/svg+xml" href="assets/cuflora.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -325,11 +325,11 @@
 <main>
   <div class="hero">
     <div class="wrap hero-int">
-      <h1>Flora georreferenciada, del campo a la wiki</h1>
+      <h1>Colecciones vivas, ubicadas y con historial</h1>
       <div class="hero-abajo">
         <div>
-          <p class="lead">CuFlora registra, mapea y da seguimiento a la flora: reportes de campo con fotos y mediciones, mapas de zonas y puntos, y una wiki taxonómica que crece con cada observación.</p>
-          <p class="hero-datos mono"><span>8 categorías de reporte</span><span>40+ subtipos</span><span>GPS de bajo costo</span><span>offline-first</span></p>
+          <p class="lead">CuFlora gestiona plantas y árboles de jardines etnobiológicos: catálogo taxonómico, mapas de flora georreferenciados y reportes de campo que dan trazabilidad geográfica y temporal a cada ejemplar.</p>
+          <p class="hero-datos mono"><span>8 categorías de reporte</span><span>40+ subtipos</span><span>georreferenciación de bajo costo</span><span>sin SIG comercial</span></p>
           <div class="hero-cta">
             <a class="btn" href="#caracteristicas">Ver características</a>
             <a class="btn sec" href="#como-funciona">Cómo funciona</a>
@@ -345,21 +345,21 @@
   <section class="panel" id="que-es">
     <div class="wrap sec-grid">
       <div>
-        <h2>Un cuaderno de campo digital</h2>
-        <p class="intro">Pensada para levantar inventarios de flora en terreno: cada planta queda ubicada, documentada y conectada a quienes la siguen.</p>
+        <h2>Trazabilidad para una colección viva</h2>
+        <p class="intro">Un jardín etnobiológico no es un catálogo estático: sus ejemplares crecen, enferman y cambian. CuFlora articula los tres planos que exige seguirles el rastro. Caso de estudio: el Jardín Etnobiológico de Jalisco, CUValles (UdeG).</p>
       </div>
       <dl class="defs">
         <div>
-          <dt>Registra en campo</dt>
-          <dd>Desde la app móvil se crean reportes con fotografías, mediciones y muestras GPS, incluso con conectividad intermitente.</dd>
+          <dt>Identidad taxonómica</dt>
+          <dd>La taxonomía se organiza como jerarquía —familia, género, especie— y de cada especie dependen los ejemplares concretos, con nombre científico, común, descripción e imágenes.</dd>
         </div>
         <div>
-          <dt>Ubica en el mapa</dt>
-          <dd>Las plantas viven en mapas de flora con zonas y puntos, con georreferenciación de bajo costo pensada para trabajo real en terreno.</dd>
+          <dt>Posición geográfica</dt>
+          <dd>Cada ejemplar se ubica dentro de una zona, y las zonas dentro de un mapa de flora, con georreferenciación de bajo costo independiente de servicios cartográficos comerciales.</dd>
         </div>
         <div>
-          <dt>Consulta y comparte</dt>
-          <dd>La wiki taxonómica organiza familias, géneros, especies y plantas; las suscripciones avisan cuando algo cambia.</dd>
+          <dt>Evolución temporal</dt>
+          <dd>Los reportes de campo —encadenados entre sí— registran el historial de cada ejemplar en el tiempo: mediciones fechadas, intervenciones y aparición de plagas.</dd>
         </div>
       </dl>
     </div>
@@ -373,15 +373,15 @@
       <ol>
         <li>
           <h3>Se levanta el reporte</h3>
-          <p>En campo: categoría, fotos, mediciones y la lectura GPS del momento, todo desde el teléfono.</p>
+          <p>En campo: categoría, fotos, mediciones fechadas y la lectura GPS del momento, todo desde el teléfono.</p>
         </li>
         <li>
           <h3>Se georreferencia</h3>
-          <p>La muestra GPS alimenta el módulo de georreferenciación y la planta se ubica —o se afina— en su mapa de flora.</p>
+          <p>Una transformación afín calibrada sobre las cuatro esquinas de una imagen aérea del jardín convierte coordenadas normalizadas en latitud y longitud reales; cada lectura GPS refina la posición por media ponderada por precisión.</p>
         </li>
         <li>
           <h3>Se notifica a los suscriptores</h3>
-          <p>Quienes siguen esa planta, su zona o su mapa reciben una notificación push con la novedad.</p>
+          <p>Quienes siguen esa planta, su zona o su mapa completo reciben una notificación push con la novedad.</p>
         </li>
       </ol>
     </div>
@@ -390,33 +390,33 @@
   <section class="panel" id="caracteristicas">
     <div class="wrap sec-grid">
       <div>
-        <h2>Todo el ciclo de la observación botánica</h2>
-        <p class="intro">Seis módulos cubren el ciclo completo. Abre cada uno para el detalle.</p>
+        <h2>Todo el ciclo de la colección viva</h2>
+        <p class="intro">Seis capacidades cubren el ciclo completo, del catálogo a la notificación. Abre cada una para el detalle.</p>
       </div>
       <div class="acc">
         <details open>
-          <summary><span class="clave mono">Wiki</span><h3>Wiki taxonómica</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Familias, géneros, especies y plantas navegables desde la app, con fichas e imágenes por cada nivel de la taxonomía.</p>
+          <summary><span class="clave mono">Catálogo</span><h3>Catálogo taxonómico</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <p class="cuerpo">Jerarquía navegable de familia, género, especie y ejemplar, con fichas e imágenes en cada nivel. Distingue la especie del ejemplar, de modo que una corrección taxonómica se propaga sin rehacer registros.</p>
         </details>
         <details>
           <summary><span class="clave mono">Mapas</span><h3>Mapas de flora</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Mapas propios dibujados en la app con zonas y puntos, para ubicar cada ejemplar dentro de su contexto en el terreno.</p>
+          <p class="cuerpo">Mapas propios sobre una imagen aérea del jardín, con zonas poligonales anidadas y puntos, para ubicar cada ejemplar dentro de su contexto real.</p>
         </details>
         <details>
           <summary><span class="clave mono">Reportes</span><h3>Reportes de campo</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Observaciones con fotos y mediciones, organizadas en un árbol de 8 categorías y más de 40 subtipos, con línea de tiempo por planta.</p>
+          <p class="cuerpo">Observaciones con fotos y mediciones fechadas, organizadas en un árbol de 8 categorías y más de 40 subtipos, encadenadas en una línea de tiempo por ejemplar. Registro diferenciado para plantas herbáceas/arbustivas y árboles (con medición de DAP).</p>
         </details>
         <details>
-          <summary><span class="clave mono">GPS</span><h3>Georreferenciación de bajo costo</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Cada reporte aporta muestras GPS que refinan la posición de la planta con el tiempo, sin hardware especializado.</p>
+          <summary><span class="clave mono">Georref</span><h3>Georreferenciación de bajo costo</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <p class="cuerpo">Dos modos sobre el mismo modelo, sin ArcGIS ni Google Maps: marcado manual sobre la imagen aérea (transformación afín, sin ir al campo) y captura en campo, donde el GPS refina la posición por media ponderada por precisión.</p>
         </details>
         <details>
           <summary><span class="clave mono">Avisos</span><h3>Suscripciones y notificaciones</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Sigue una planta, una zona o un mapa completo y recibe notificaciones push cuando hay nuevos reportes.</p>
+          <p class="cuerpo">Sigue un ejemplar, una zona o un mapa completo y recibe notificaciones push, encoladas para entrega asíncrona y tolerante a fallos.</p>
         </details>
         <details>
-          <summary><span class="clave mono">Offline</span><h3>Hecha para el terreno</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">La app detecta la conectividad y está pensada para seguir trabajando donde la señal no llega.</p>
+          <summary><span class="clave mono">App</span><h3>Cliente ligero, backend-first</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <p class="cuerpo">La app móvil solo captura la observación —texto, foto y lectura GPS— y la remite al gateway: la lógica, la validación y el procesamiento viven en el backend, lo que mantiene el cliente simple y reemplazable.</p>
         </details>
       </div>
     </div>
@@ -426,18 +426,21 @@
     <div class="wrap sec-grid">
       <div>
         <h2>Arquitectura de microservicios</h2>
-        <p class="intro">Una app móvil habla con un API Gateway que orquesta microservicios especializados: usuarios, plantas y mapas, reportes, imágenes y notificaciones.</p>
+        <p class="intro">La app móvil —único cliente de referencia— habla por HTTPS con un API Gateway (BFF) que valida el token y enruta por TCP a microservicios aislados: usuarios, plantas y mapas, reportes, imágenes y notificaciones. El backend expone una API consumible por distintos clientes.</p>
       </div>
       <table class="stack-tabla">
         <tbody>
-          <tr><th scope="row">Móvil</th><td>Expo · React Native</td></tr>
-          <tr><th scope="row">Backend</th><td>NestJS · Turborepo</td></tr>
-          <tr><th scope="row">Entrada</th><td>API Gateway (BFF) · microservicios TCP</td></tr>
-          <tr><th scope="row">Datos</th><td>MariaDB · MongoDB</td></tr>
-          <tr><th scope="row">Colas</th><td>Redis · Bull</td></tr>
-          <tr><th scope="row">Push</th><td>Expo Push API</td></tr>
-          <tr><th scope="row">Auth</th><td>JWT</td></tr>
-          <tr><th scope="row">Web</th><td>Angular <span class="nota">(en camino)</span></td></tr>
+          <tr><th scope="row">Cliente móvil</th><td>Expo · React Native</td></tr>
+          <tr><th scope="row">Proxy inverso</th><td>NGINX <span class="nota">(terminación TLS)</span></td></tr>
+          <tr><th scope="row">Gateway · Servicios</th><td>NestJS <span class="nota">(REST en el gateway, TCP MessagePattern entre servicios)</span></td></tr>
+          <tr><th scope="row">ORM</th><td>TypeORM</td></tr>
+          <tr><th scope="row">Datos</th><td>MariaDB <span class="nota">(relacional)</span> · MongoDB <span class="nota">(notificaciones)</span></td></tr>
+          <tr><th scope="row">Colas</th><td>BullMQ · Redis</td></tr>
+          <tr><th scope="row">Push</th><td>Expo Push API <span class="nota">(sin Firebase)</span></td></tr>
+          <tr><th scope="row">Correo</th><td>Nodemailer · SMTP</td></tr>
+          <tr><th scope="row">Auth</th><td>JWT <span class="nota">(Passport · bcrypt)</span></td></tr>
+          <tr><th scope="row">Framework interno</th><td>kawi-aa-nestjs <span class="nota">(CRUD, filtros y paginación)</span></td></tr>
+          <tr><th scope="row">Despliegue</th><td>Docker · Compose</td></tr>
         </tbody>
       </table>
     </div>
