@@ -1,0 +1,13 @@
+# Skills (herramientas) y sus productos — no forman parte del sitio publicado
+.agents/
+.claude/
+.codex/
+.impeccable/
+skills-lock.json
+
+# Documentos de contexto generados por skills
+PRODUCT.md
+DESIGN.md
+
+# Temporales del sistema
+.DS_Store
