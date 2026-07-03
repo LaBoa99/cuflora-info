@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CuFlora — Flora georreferenciada, del campo a la wiki</title>
+<meta name="description" content="CuFlora: plataforma para registrar, mapear y consultar flora con georreferenciación. Wiki taxonómica, mapas de flora, reportes de campo y notificaciones.">
+<link rel="icon" type="image/svg+xml" href="assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lima: #b1ff48;
+    --tinta: #131807;
+    --papel: #f7faee;
+    --panel: #ffffff;
+    --verde: #2c7a1f;
+    --oliva: #5c6649;
+    --borde: #131807;
+    --sombra: #131807;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --tinta: #eef3e2;
+      --papel: #10140a;
+      --panel: #181e10;
+      --verde: #7fd94f;
+      --oliva: #9aa584;
+      --borde: #eef3e2;
+      --sombra: #b1ff48;
+    }
+  }
+  :root[data-theme="light"] {
+    --lima: #b1ff48;
+    --tinta: #131807;
+    --papel: #f7faee;
+    --panel: #ffffff;
+    --verde: #2c7a1f;
+    --oliva: #5c6649;
+    --borde: #131807;
+    --sombra: #131807;
+  }
+  :root[data-theme="dark"] {
+    --lima: #b1ff48;
+    --tinta: #eef3e2;
+    --papel: #10140a;
+    --panel: #181e10;
+    --verde: #7fd94f;
+    --oliva: #9aa584;
+    --borde: #eef3e2;
+    --sombra: #b1ff48;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    font-family: "Archivo", system-ui, sans-serif;
+    background: var(--papel);
+    color: var(--tinta);
+    line-height: 1.6;
+    font-size: 1.0625rem;
+  }
+
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--verde);
+    outline-offset: 3px;
+  }
+
+  .wrap { max-width: 68rem; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+
+  .mono {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    border-bottom: 2px solid var(--borde);
+    background: var(--papel);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.75rem;
+  }
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    font-weight: 800;
+    font-stretch: 110%;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+  }
+  .marca img {
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 2px solid var(--borde);
+    display: block;
+  }
+  .nav-links { display: flex; gap: 1.4rem; }
+  .nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .nav-links a:hover { color: var(--verde); }
+  @media (max-width: 40rem) { .nav-links { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--lima);
+    color: #131807;
+    border-bottom: 2px solid var(--borde);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+  }
+  @media (max-width: 48rem) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { max-width: 16rem; }
+  }
+  .hero .etiqueta {
+    display: inline-block;
+    border: 2px solid #131807;
+    padding: 0.3rem 0.7rem;
+    background: #f7faee;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 {
+    font-weight: 900;
+    font-stretch: 125%;
+    font-size: clamp(2.4rem, 6.5vw, 4.3rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    text-transform: uppercase;
+  }
+  .hero h1 em {
+    font-style: normal;
+    -webkit-text-stroke: 2px #131807;
+    color: transparent;
+  }
+  .hero p.lead {
+    margin-top: 1.4rem;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    max-width: 34rem;
+    line-height: 1.5;
+  }
+  .hero-cta { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #131807;
+    background: #131807;
+    color: var(--lima);
+    box-shadow: 4px 4px 0 0 #f7faee, 4px 4px 0 2px #131807;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .btn.sec { background: #f7faee; color: #131807; }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 0 #f7faee, 6px 6px 0 2px #131807; }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 0 #f7faee, 1px 1px 0 2px #131807; }
+  .hero-art {
+    justify-self: center;
+    width: 100%;
+    max-width: 22rem;
+    border: 2px solid #131807;
+    box-shadow: 8px 8px 0 0 #131807;
+    background: var(--lima);
+    transform: rotate(2deg);
+  }
+  .hero-art img { display: block; width: 100%; height: auto; }
+
+  /* ---------- Secciones ---------- */
+  section { padding-block: clamp(3rem, 7vw, 5rem); }
+  .sec-head { margin-bottom: 2.2rem; max-width: 40rem; }
+  .sec-head .mono { color: var(--verde); font-weight: 500; }
+  .sec-head h2 {
+    font-weight: 850;
+    font-stretch: 118%;
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-top: 0.5rem;
+    text-wrap: balance;
+  }
+  .sec-head p { margin-top: 0.8rem; color: var(--oliva); }
+
+  /* Qué es */
+  .que-es { border-bottom: 2px solid var(--borde); }
+  .que-es .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2rem;
+  }
+  .que-es .col h3 {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .que-es .col h3::before {
+    content: "";
+    width: 0.65rem;
+    height: 0.65rem;
+    background: var(--lima);
+    border: 2px solid var(--borde);
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .que-es .col p { color: var(--oliva); font-size: 0.97rem; }
+
+  /* Fichas de características */
+  .fichas { border-bottom: 2px solid var(--borde); }
+  .ficha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+  }
+  .ficha {
+    background: var(--panel);
+    border: 2px solid var(--borde);
+    box-shadow: 5px 5px 0 0 var(--sombra);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 140ms ease, box-shadow 140ms ease;
+  }
+  .ficha:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 0 var(--sombra); }
+  .ficha .tag {
+    align-self: flex-start;
+    background: var(--lima);
+    color: #131807;
+    border: 2px solid var(--borde);
+    padding: 0.15rem 0.55rem;
+  }
+  .ficha h3 { font-weight: 750; font-size: 1.15rem; line-height: 1.25; }
+  .ficha p { color: var(--oliva); font-size: 0.95rem; }
+
+  /* Flujo */
+  .flujo ol {
+    list-style: none;
+    counter-reset: paso;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.5rem;
+  }
+  .flujo li {
+    counter-increment: paso;
+    border-top: 2px solid var(--borde);
+    padding-top: 1.2rem;
+    position: relative;
+  }
+  .flujo li::before {
+    content: counter(paso, decimal-leading-zero);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.85rem;
+    color: var(--verde);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .flujo h3 { font-weight: 750; font-size: 1.1rem; margin-bottom: 0.35rem; }
+  .flujo p { color: var(--oliva); font-size: 0.95rem; }
+
+  /* Stack */
+  .stack {
+    /* panel de tinta fijo: mismo aspecto en tema claro y oscuro */
+    background: #131807;
+    color: #f7faee;
+    border-block: 2px solid var(--borde);
+  }
+  .stack .sec-head h2 { color: var(--lima); }
+  .stack .sec-head p { color: rgba(247, 250, 238, 0.72); }
+  .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+  .stack-list span {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.85rem;
+    border: 1.5px solid rgba(247, 250, 238, 0.45);
+    padding: 0.4rem 0.85rem;
+    white-space: nowrap;
+  }
+  .stack-list span.on { border-color: var(--lima); color: var(--lima); }
+
+  /* ---------- Footer ---------- */
+  footer { padding-block: 2.5rem; }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .foot .mono { color: var(--oliva); text-transform: none; letter-spacing: 0.03em; }
+  .foot a { color: var(--verde); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="#"><img src="assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="#que-es">Qué es</a>
+      <a href="#caracteristicas">Características</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#stack">Tecnología</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="etiqueta mono">Registro de flora · Georreferenciación</span>
+        <h1>Flora georreferenciada, <em>del campo a la wiki</em></h1>
+        <p class="lead">CuFlora es una plataforma para registrar, mapear y consultar flora: reportes de campo con fotos y mediciones, mapas de zonas y puntos, y una wiki taxonómica que crece con cada observación.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#caracteristicas">Ver características</a>
+          <a class="btn sec" href="#como-funciona">Cómo funciona</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="assets/cuflora.svg" alt="Ilustración de la marca CuFlora: boceto botánico en tinta sobre fondo lima" width="1024" height="1024">
+      </div>
+    </div>
+  </div>
+
+  <section class="que-es" id="que-es">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Ficha nº 01 — Proyecto</span>
+        <h2>Un cuaderno de campo digital para inventariar flora</h2>
+        <p>Pensada para levantar inventarios de flora en campo: cada planta queda ubicada en un mapa, documentada en la wiki y conectada a quienes la siguen.</p>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <h3>Registra en campo</h3>
+          <p>Desde la app móvil se crean reportes con fotografías, mediciones y muestras GPS, incluso con conectividad intermitente.</p>
+        </div>
+        <div class="col">
+          <h3>Ubica en el mapa</h3>
+          <p>Las plantas viven en mapas de flora con zonas y puntos, con georreferenciación de bajo costo pensada para trabajo real en terreno.</p>
+        </div>
+        <div class="col">
+          <h3>Consulta y comparte</h3>
+          <p>La wiki taxonómica organiza familias, géneros, especies y plantas; las suscripciones avisan cuando algo cambia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichas" id="caracteristicas">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Ficha nº 02 — Características</span>
+        <h2>Todo el ciclo de la observación botánica</h2>
+      </div>
+      <div class="ficha-grid">
+        <article class="ficha">
+          <span class="tag mono">Wiki</span>
+          <h3>Wiki taxonómica</h3>
+          <p>Familias, géneros, especies y plantas navegables desde la app, con fichas e imágenes por cada nivel de la taxonomía.</p>
+        </article>
+        <article class="ficha">
+          <span class="tag mono">Mapas</span>
+          <h3>Mapas de flora</h3>
+          <p>Mapas propios dibujados en la app con zonas y puntos, para ubicar cada ejemplar dentro de su contexto en el terreno.</p>
+        </article>
+        <article class="ficha">
+          <span class="tag mono">Reportes</span>
+          <h3>Reportes de campo</h3>
+          <p>Observaciones con fotos y mediciones, organizadas en un árbol de 8 categorías y más de 40 subtipos, con línea de tiempo por planta.</p>
+        </article>
+        <article class="ficha">
+          <span class="tag mono">GPS</span>
+          <h3>Georreferenciación de bajo costo</h3>
+          <p>Cada reporte aporta muestras GPS que refinan la posición de la planta con el tiempo, sin hardware especializado.</p>
+        </article>
+        <article class="ficha">
+          <span class="tag mono">Avisos</span>
+          <h3>Suscripciones y notificaciones</h3>
+          <p>Sigue una planta, una zona o un mapa completo y recibe notificaciones push cuando hay nuevos reportes.</p>
+        </article>
+        <article class="ficha">
+          <span class="tag mono">Offline</span>
+          <h3>Hecha para el terreno</h3>
+          <p>La app detecta la conectividad y está pensada para seguir trabajando donde la señal no llega.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="flujo" id="como-funciona">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Ficha nº 03 — Flujo</span>
+        <h2>De la observación a la notificación</h2>
+      </div>
+      <ol>
+        <li>
+          <h3>Se levanta el reporte</h3>
+          <p>En campo: categoría, fotos, mediciones y la lectura GPS del momento, todo desde el teléfono.</p>
+        </li>
+        <li>
+          <h3>Se georreferencia</h3>
+          <p>La muestra GPS alimenta el módulo de georreferenciación y la planta se ubica —o se afina— en su mapa de flora.</p>
+        </li>
+        <li>
+          <h3>Se notifica a los suscriptores</h3>
+          <p>Quienes siguen esa planta, su zona o su mapa reciben una notificación push con la novedad.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="stack" id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono" style="color: var(--lima)">Ficha nº 04 — Tecnología</span>
+        <h2>Arquitectura de microservicios</h2>
+        <p>Una app móvil habla con un API Gateway que orquesta microservicios especializados: usuarios, plantas y mapas, reportes, imágenes y notificaciones.</p>
+      </div>
+      <div class="stack-list">
+        <span class="on">Expo · React Native</span>
+        <span class="on">NestJS · Turborepo</span>
+        <span>API Gateway (BFF)</span>
+        <span>Microservicios TCP</span>
+        <span>MariaDB</span>
+        <span>MongoDB</span>
+        <span>Redis · Bull</span>
+        <span>Expo Push API</span>
+        <span>JWT</span>
+        <span>Angular (web, en camino)</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono">CuFlora © 2026 · info.cuflora.kawi.page</span>
+    <span class="mono">Hecho en México 🌱 por <a href="https://github.com/LaBoa99">LaBoa99</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
