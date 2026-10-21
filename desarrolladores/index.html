@@ -119,6 +119,7 @@ curl -H "Authorization: Bearer $CUFLORA_KEY" \
   "pagination": { "pageNumber": 1, "pageSize": 100, "totalCount": 240,
                   "totalPages": 3, "hasNextPage": true, "hasPreviousPage": false }
 }</pre>
+        <p>El orden es fijo, así que puedes recorrer las páginas sin que se repitan ni falten registros: las plantas van por nombre común y luego científico, las familias y los géneros por nombre, los reportes del más reciente al más antiguo, y todo lo demás por <code>id</code>.</p>
 
         <h3>Filtros</h3>
         <p>Se escriben <code>fi.&lt;campo&gt;_&lt;operador&gt;=valor</code>. El operador siempre va: <code>fi.speciesId=3</code> responde 400.</p>
@@ -129,6 +130,15 @@ GET /reports?fi.subjectId_eq=12&amp;pageSize=100</pre>
         <h3>Relaciones (includes)</h3>
         <p>Por omisión cada registro llega solo, con los ids de sus relaciones. <code>in.&lt;relación&gt;=true</code> trae la relación en la misma respuesta. Úsalos en vez de pedir el detalle de cada registro: una página con <code>in.species=true</code> cuesta una petición; cien detalles, cien.</p>
         <pre class="codigo">GET /plants?pageSize=100&amp;in.species=true&amp;in.placementZone=true</pre>
+
+        <h3>Coordenadas</h3>
+        <p>Las coordenadas de una planta llegan con <code>in.placementMap=true</code>, en <code>placement.position</code> (<code>{ "lat": …, "lng": … }</code>, WGS84). <code>placement.positionSource</code> dice de dónde salen:</p>
+        <ul>
+          <li><code>pixel</code>: el punto marcado sobre la ortofoto georreferenciada. Es la más exacta.</li>
+          <li><code>gps</code>: la media de las lecturas GPS tomadas en campo, cuando la planta no tiene punto en el mapa.</li>
+        </ul>
+        <p>Una planta asignada solo a una zona, sin punto ni lecturas GPS, trae <code>position: null</code>. Las lecturas de campo también vienen aparte, en <code>placement.latitude</code> y <code>placement.longitude</code>, para que puedas compararlas con el punto del mapa.</p>
+        <pre class="codigo">GET /plants?pageSize=100&amp;in.species=true&amp;in.placementMap=true</pre>
       </div>
     </div>
   </section>
