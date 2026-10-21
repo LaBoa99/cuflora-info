@@ -63,12 +63,12 @@
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
-                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · entero</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · entero</td><td>Registros por página. Con llave, máximo 100.</td></tr>
               </tbody>
             </table>
             
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.placements=true</code><code>in.plants=true</code><code>in.zones=true</code><code>in.placement_points=true</code><code>in.polygons=true</code><code>in.children_zones=true</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>placements</code><code>plants</code><code>zones</code><code>placement_points</code><code>polygons</code><code>children_zones</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;data&quot;: [
     {
@@ -120,11 +120,11 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">id</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
               </tbody>
             </table>
             
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.placements=true</code><code>in.plants=true</code><code>in.zones=true</code><code>in.placement_points=true</code><code>in.polygons=true</code><code>in.children_zones=true</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>placements</code><code>plants</code><code>zones</code><code>placement_points</code><code>polygons</code><code>children_zones</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;id&quot;: 1,
   &quot;name&quot;: &quot;CUValles&quot;,
@@ -164,8 +164,8 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
-                <tr><th scope="row">groupBy</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">id</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">groupBy</th><td class="tipo">consulta · texto</td><td></td></tr>
               </tbody>
             </table>
             
@@ -201,13 +201,13 @@ const csv = await r.text();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">mapId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
-                <tr><th scope="row">zoneId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
-                <tr><th scope="row">groupBy</th><td class="tipo">consulta · string</td><td></td></tr>
-                <tr><th scope="row">speciesId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">genusId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">familyId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">search</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">mapId</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">zoneId</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">groupBy</th><td class="tipo">consulta · texto</td><td></td></tr>
+                <tr><th scope="row">speciesId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">genusId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">familyId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">search</th><td class="tipo">consulta · texto</td><td></td></tr>
               </tbody>
             </table>
             
@@ -243,10 +243,10 @@ const csv = await r.text();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">mapId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
-                <tr><th scope="row">zoneId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
-                <tr><th scope="row">from</th><td class="tipo">consulta · string</td><td></td></tr>
-                <tr><th scope="row">to</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">mapId</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">zoneId</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">from</th><td class="tipo">consulta · texto</td><td></td></tr>
+                <tr><th scope="row">to</th><td class="tipo">consulta · texto</td><td></td></tr>
               </tbody>
             </table>
             
@@ -277,7 +277,7 @@ const csv = await r.text();</pre></details>
 
 <footer>
   <div class="wrap foot">
-    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono generada">Generada desde la rama master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
     <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
   </div>
 </footer>

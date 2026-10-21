@@ -108,8 +108,8 @@ curl -H "Authorization: Bearer $CUFLORA_KEY" \
   <section class="panel" id="consultas">
     <div class="wrap sec-grid">
       <div>
-        <h2>Paginación, filtros e includes</h2>
-        <p class="intro">Todos los listados funcionan igual. La referencia dice qué filtros e includes acepta cada uno.</p>
+        <h2>Paginación, filtros y relaciones</h2>
+        <p class="intro">Todos los listados funcionan igual. La referencia dice qué filtros y relaciones acepta cada uno.</p>
       </div>
       <div class="prosa">
         <h3>Paginación</h3>
@@ -126,7 +126,7 @@ curl -H "Authorization: Bearer $CUFLORA_KEY" \
         <pre class="codigo">GET /plants?fi.speciesId_eq=3
 GET /reports?fi.subjectId_eq=12&amp;pageSize=100</pre>
 
-        <h3>Includes</h3>
+        <h3>Relaciones (includes)</h3>
         <p>Por omisión cada registro llega solo, con los ids de sus relaciones. <code>in.&lt;relación&gt;=true</code> trae la relación en la misma respuesta. Úsalos en vez de pedir el detalle de cada registro: una página con <code>in.species=true</code> cuesta una petición; cien detalles, cien.</p>
         <pre class="codigo">GET /plants?pageSize=100&amp;in.species=true&amp;in.placementZone=true</pre>
       </div>
@@ -184,7 +184,7 @@ while True:
         <tbody>
           <tr><th scope="row">400</th><td>Parámetro mal escrito, por ejemplo un filtro sin operador.</td></tr>
           <tr><th scope="row">401</th><td>La llave no existe, está revocada o caducó.</td></tr>
-          <tr><th scope="row">403</th><td>La llave no permite esa ruta: no está en sus scopes, tu cuenta perdió el permiso o la ruta no acepta llaves.</td></tr>
+          <tr><th scope="row">403</th><td>La llave no permite esa ruta: no está entre lo que puede leer, tu cuenta perdió el permiso o la ruta no acepta llaves.</td></tr>
           <tr><th scope="row">404</th><td>No hay registro con ese id.</td></tr>
           <tr><th scope="row">429</th><td>Pasaste un límite. Espera lo que diga <code>Retry-After</code>.</td></tr>
           <tr><th scope="row">503</th><td>Un servicio interno no respondió. Reintenta en unos segundos.</td></tr>
@@ -197,7 +197,7 @@ while True:
     <div class="wrap sec-grid">
       <div>
         <h2>Referencia</h2>
-        <p class="intro">Cada operación con sus parámetros, filtros, includes, un ejemplo de respuesta y código listo para copiar. Se genera sola desde el código del servidor.</p>
+        <p class="intro">Cada operación con sus parámetros, filtros, relaciones, un ejemplo de respuesta y código listo para copiar. Se genera sola desde el código del servidor.</p>
       </div>
       <table class="stack-tabla">
         <tbody>

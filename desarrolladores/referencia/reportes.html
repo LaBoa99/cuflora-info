@@ -68,12 +68,12 @@
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
-                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · entero</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · entero</td><td>Registros por página. Con llave, máximo 100.</td></tr>
               </tbody>
             </table>
-            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.subjectId_eq</code><code>fi.reporterId_eq</code><code>fi.parentId_eq</code><code>fi.createdAt_eq</code><code>fi.createdFrom_eq</code><code>fi.createdTo_eq</code></div></div>
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.children=true</code><code>in.images=true</code><code>in.mainCategory=true</code><code>in.measurement=true</code><code>in.parent=true</code><code>in.subcategory=true</code></div></div>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;operador&gt;=valor</span><div class="chips"><code>subjectId</code><code>reporterId</code><code>parentId</code><code>createdAt</code><code>createdFrom</code><code>createdTo</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>children</code><code>images</code><code>mainCategory</code><code>measurement</code><code>parent</code><code>subcategory</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;data&quot;: [
     {
@@ -128,8 +128,8 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
-                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · entero</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · entero</td><td>Registros por página. Con llave, máximo 100.</td></tr>
               </tbody>
             </table>
             
@@ -183,12 +183,12 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
-                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · entero</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · entero</td><td>Registros por página. Con llave, máximo 100.</td></tr>
               </tbody>
             </table>
-            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.parent_eq</code></div></div>
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.parent=true</code><code>in.subcategories=true</code></div></div>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;operador&gt;=valor</span><div class="chips"><code>parent</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>parent</code><code>subcategories</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;data&quot;: [
     {
@@ -240,12 +240,12 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
-                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · entero</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · entero</td><td>Registros por página. Con llave, máximo 100.</td></tr>
               </tbody>
             </table>
             
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.report=true</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>report</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;data&quot;: [
     {
@@ -297,11 +297,11 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">id</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
               </tbody>
             </table>
             
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.children=true</code><code>in.images=true</code><code>in.mainCategory=true</code><code>in.measurement=true</code><code>in.parent=true</code><code>in.subcategory=true</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>children</code><code>images</code><code>mainCategory</code><code>measurement</code><code>parent</code><code>subcategory</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;id&quot;: 40,
   &quot;mainCategoryId&quot;: 7,
@@ -344,7 +344,7 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">id</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
               </tbody>
             </table>
             
@@ -386,11 +386,11 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">id</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
               </tbody>
             </table>
             
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.parent=true</code><code>in.subcategories=true</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>parent</code><code>subcategories</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;id&quot;: 7,
   &quot;name&quot;: &quot;Medidas&quot;,
@@ -430,11 +430,11 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">id</th><td class="tipo">ruta · número</td><td> <b>Obligatorio.</b></td></tr>
               </tbody>
             </table>
             
-            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.report=true</code></div></div>
+            <div><span class="chips-titulo">Relaciones (includes) · in.&lt;relación&gt;=true</span><div class="chips"><code>report</code></div></div>
             <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
   &quot;id&quot;: 8,
   &quot;reportId&quot;: 41,
@@ -474,10 +474,10 @@ const datos = await r.json();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">subjectId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">reporterId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">from</th><td class="tipo">consulta · string</td><td></td></tr>
-                <tr><th scope="row">to</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">subjectId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">reporterId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">from</th><td class="tipo">consulta · texto</td><td></td></tr>
+                <tr><th scope="row">to</th><td class="tipo">consulta · texto</td><td></td></tr>
               </tbody>
             </table>
             
@@ -512,10 +512,10 @@ const csv = await r.text();</pre></details>
             <table class="params">
               <caption>Parámetros</caption>
               <tbody>
-                <tr><th scope="row">subjectId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">subcategoryId</th><td class="tipo">consulta · number</td><td></td></tr>
-                <tr><th scope="row">from</th><td class="tipo">consulta · string</td><td></td></tr>
-                <tr><th scope="row">to</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">subjectId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">subcategoryId</th><td class="tipo">consulta · número</td><td></td></tr>
+                <tr><th scope="row">from</th><td class="tipo">consulta · texto</td><td></td></tr>
+                <tr><th scope="row">to</th><td class="tipo">consulta · texto</td><td></td></tr>
               </tbody>
             </table>
             
@@ -546,7 +546,7 @@ const csv = await r.text();</pre></details>
 
 <footer>
   <div class="wrap foot">
-    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono generada">Generada desde la rama master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
     <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
   </div>
 </footer>

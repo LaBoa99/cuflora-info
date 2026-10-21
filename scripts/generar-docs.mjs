@@ -41,6 +41,7 @@ const TIPOS = {
     exportacion: 'Archivo CSV · 10 por hora por llave',
     abierta: 'Abierta · sin llave',
 };
+const TIPOS_DATO = { integer: 'entero', number: 'número', string: 'texto', boolean: 'sí/no', array: 'lista' };
 const EJEMPLO_PARAM = { id: '1', mapId: '1', zoneId: '2', placementId: '1' };
 
 const esc = (texto) => String(texto ?? '')
@@ -98,7 +99,7 @@ ${cuerpo}
 
 <footer>
   <div class="wrap foot">
-    <span class="mono generada">Generada desde master @${esc(commit)} · <a href="${raiz}desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono generada">Generada desde la rama master @${esc(commit)} · <a href="${raiz}desarrolladores/openapi.json">openapi.json</a></span>
     <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
   </div>
 </footer>
@@ -151,7 +152,8 @@ function tablaParametros(op) {
     const params = op.parameters ?? [];
     if (!params.length) return '';
     const filas = params.map((p) => {
-        const tipo = p.schema?.type ?? (p.schema?.enum ? 'enum' : 'string');
+        const crudo = p.schema?.type ?? (p.schema?.enum ? 'enum' : 'string');
+        const tipo = TIPOS_DATO[crudo] ?? crudo;
         const extra = p.schema?.enum ? ` (${p.schema.enum.join(', ')})` : '';
         return `<tr><th scope="row">${esc(p.name)}</th><td class="tipo">${esc(p.in === 'path' ? 'ruta' : 'consulta')} · ${esc(tipo)}</td><td>${enLinea(p.description ?? '')}${esc(extra)}${p.required ? ' <b>Obligatorio.</b>' : ''}</td></tr>`;
     }).join('\n                ');
@@ -190,8 +192,8 @@ function operacion(metodo, ruta, op, abierta) {
               <dt>Permiso</dt><dd>${permisos}</dd>
             </dl>
             ${tablaParametros(op)}
-            ${chips('Filtros · fi.<campo>_<op>=valor', op['x-filtros'], (f) => `fi.${f}_eq`)}
-            ${chips('Includes · in.<relación>=true', op['x-includes'], (i) => `in.${i}=true`)}
+            ${chips('Filtros · fi.<campo>_<operador>=valor', op['x-filtros'], (f) => f)}
+            ${chips('Relaciones (includes) · in.<relación>=true', op['x-includes'], (i) => i)}
             ${respuesta(op)}
             ${ejemplos(metodo, ruta, op)}
           </div>
