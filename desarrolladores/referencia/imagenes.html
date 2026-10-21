@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imágenes · API de CuFlora</title>
+<meta name="description" content="Referencia de la API pública de CuFlora: Archivos de fotos y ortofotos. No piden llave.">
+<meta name="theme-color" content="#A6F750">
+<link rel="icon" type="image/svg+xml" href="../../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/estilos.css">
+<link rel="stylesheet" href="../../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../../"><img src="../../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../../">Inicio</a>
+        <a href="../../desarrolladores/">Guía</a>
+        <a href="../../desarrolladores/referencia/" aria-current="page">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="../../desarrolladores/#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono"><a href="../">Desarrolladores</a> / <a href="./">Referencia</a> / Imágenes</p>
+      <h1>Imágenes</h1>
+      <p class="lead">2 operaciones de solo lectura. Archivos de fotos y ortofotos. No piden llave.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Imágenes</h2>
+        <p class="intro">Archivos de fotos y ortofotos. No piden llave.</p>
+        <ul class="indice">
+          <li><a href="#get-images-id">GET /images/{id}</a></li>
+          <li><a href="#get-images-id-meta">GET /images/{id}/meta</a></li>
+        </ul>
+      </div>
+      <div class="acc ref">
+        <details id="get-images-id" open>
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/images/{id}</span><span class="res">Descargar una imagen</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>El archivo de una imagen (foto o ortofoto). No pide llave. Acepta <code>Range</code> para descargas parciales; las ortofotos pueden pesar varios MB.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Abierta · sin llave</dd>
+              <dt>Permiso</dt><dd>Ninguno</dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            
+            
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl \
+  &quot;https://cuflora.kawi.page/images/1&quot; \
+  -o imagen</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/images/1&quot;)
+r.raise_for_status()
+open(&quot;imagen&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/images/1&quot;);
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const imagen = await r.arrayBuffer();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-images-id-meta">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/images/{id}/meta</span><span class="res">Ver los datos de una imagen</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Tamaño y tipo de una imagen, sin descargarla. No pide llave.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Abierta · sin llave</dd>
+              <dt>Permiso</dt><dd>Ninguno</dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 1,
+  &quot;filename&quot;: &quot;cuvalles&quot;,
+  &quot;extension&quot;: &quot;png&quot;,
+  &quot;size&quot;: 6217821,
+  &quot;width&quot;: 1432,
+  &quot;height&quot;: 2675,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl \
+  &quot;https://cuflora.kawi.page/images/1/meta&quot; \
+  -o imagen</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/images/1/meta&quot;)
+r.raise_for_status()
+open(&quot;imagen&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/images/1/meta&quot;);
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const imagen = await r.arrayBuffer();</pre></details>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API de CuFlora · Desarrolladores</title>
+<meta name="description" content="Lee los datos de CuFlora —plantas, taxonomía, mapas, reportes y mediciones— desde R, Python u otros sistemas con una llave de API de solo lectura.">
+<meta name="theme-color" content="#A6F750">
+<link rel="canonical" href="https://info.cuflora.kawi.page/desarrolladores/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="CuFlora">
+<meta property="og:title" content="API de CuFlora · Desarrolladores">
+<meta property="og:description" content="Lee los datos de CuFlora desde R, Python u otros sistemas con una llave de API de solo lectura.">
+<meta property="og:image" content="https://info.cuflora.kawi.page/assets/og.png">
+<link rel="icon" type="image/svg+xml" href="../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+<link rel="stylesheet" href="../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../"><img src="../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../">Inicio</a>
+        <a href="./" aria-current="page">Guía</a>
+        <a href="referencia/">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono">Desarrolladores</p>
+      <h1>Los datos del jardín, desde tu código</h1>
+      <p class="lead">La API de CuFlora deja leer plantas, taxonomía, mapas, reportes y mediciones desde R, Python o cualquier sistema, con una llave de solo lectura. Para análisis, tableros o integrar el inventario con otros portales.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#empieza">Empezar</a>
+        <a class="btn sec" href="referencia/">Ver la referencia</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="panel" id="empieza">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Empieza en tres pasos</h2>
+        <p class="intro">De no tener nada a tu primera respuesta en unos minutos.</p>
+      </div>
+      <div>
+        <ol class="pasos">
+          <li>
+            <div>
+              <h3>Ten una cuenta de investigador</h3>
+              <p>Las llaves las crean investigadores y administradores. Si tu cuenta es de otro tipo, pide el cambio en <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=Llave%20de%20API%20CuFlora">claudio.rodriguez4333@alumnos.udg.mx</a>.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Crea una llave en la app</h3>
+              <p>En la app o en su versión web: <b>Perfil → Llaves de API → Nueva llave</b>. Ponle un nombre, elige qué puede leer y cópiala: solo se muestra una vez.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Haz tu primera petición</h3>
+              <p>Guarda la llave en una variable de entorno y pide las plantas con su especie:</p>
+            </div>
+          </li>
+        </ol>
+        <pre class="codigo"><span class="com"># Linux, macOS o Git Bash</span>
+export CUFLORA_KEY="cuf_…"
+
+curl -H "Authorization: Bearer $CUFLORA_KEY" \
+  "https://cuflora.kawi.page/plants?pageSize=100&amp;in.species=true"</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="llave" style="background: var(--lima)">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Tu llave</h2>
+        <p class="intro" style="color: var(--oliva-lima)">Trátala como una contraseña.</p>
+      </div>
+      <div class="prosa">
+        <p style="color: var(--oliva-lima)">Tiene la forma <code>cuf_&lt;prefijo&gt;_&lt;secreto&gt;</code> y viaja en el encabezado <code>Authorization: Bearer cuf_…</code>. El prefijo la identifica en tu lista; el secreto solo existe en tu copia, porque CuFlora guarda únicamente su huella.</p>
+        <ul>
+          <li style="color: var(--oliva-lima)"><b>Solo lectura.</b> Ninguna llave puede crear, editar ni borrar, aunque tu cuenta sí pueda.</li>
+          <li style="color: var(--oliva-lima)"><b>Sin cuentas ni suscripciones.</b> Usuarios, roles, suscriptores y notificaciones quedan fuera.</li>
+          <li style="color: var(--oliva-lima)"><b>Caduca.</b> Dura hasta 365 días; para renovarla, crea otra y revoca la vieja.</li>
+          <li style="color: var(--oliva-lima)"><b>Sigue a tu cuenta.</b> Si pierdes un permiso o se suspende tu cuenta, la llave deja de poder usarlo en ese momento.</li>
+          <li style="color: var(--oliva-lima)"><b>Revócala si se filtra.</b> Desde la misma pantalla de la app; deja de funcionar en el acto.</li>
+        </ul>
+        <div class="aviso" style="border-color: var(--tinta)"><strong>No la subas a un repositorio.</strong> Léela de una variable de entorno (<code>CUFLORA_KEY</code>) o de un archivo que esté en tu <code>.gitignore</code>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="consultas">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Paginación, filtros e includes</h2>
+        <p class="intro">Todos los listados funcionan igual. La referencia dice qué filtros e includes acepta cada uno.</p>
+      </div>
+      <div class="prosa">
+        <h3>Paginación</h3>
+        <p>Los listados responden por páginas con <code>pageNumber</code> (desde 1) y <code>pageSize</code> (25 por omisión, <b>100 como máximo</b> con llave). La respuesta trae los registros en <code>data</code> y dónde estás en <code>pagination</code>:</p>
+        <pre class="codigo">{
+  "data": [ { "id": 12, "scientificName": "Agave tequilana", … } ],
+  "pagination": { "pageNumber": 1, "pageSize": 100, "totalCount": 240,
+                  "totalPages": 3, "hasNextPage": true, "hasPreviousPage": false }
+}</pre>
+
+        <h3>Filtros</h3>
+        <p>Se escriben <code>fi.&lt;campo&gt;_&lt;operador&gt;=valor</code>. El operador siempre va: <code>fi.speciesId=3</code> responde 400.</p>
+        <p>Operadores: <code>eq</code>, <code>neq</code>, <code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>, <code>between</code>, <code>in</code>, <code>not-in</code>, <code>contains</code>, <code>starts-with</code>, <code>ends-with</code>, <code>is-null</code>, <code>is-not-null</code>.</p>
+        <pre class="codigo">GET /plants?fi.speciesId_eq=3
+GET /reports?fi.subjectId_eq=12&amp;pageSize=100</pre>
+
+        <h3>Includes</h3>
+        <p>Por omisión cada registro llega solo, con los ids de sus relaciones. <code>in.&lt;relación&gt;=true</code> trae la relación en la misma respuesta. Úsalos en vez de pedir el detalle de cada registro: una página con <code>in.species=true</code> cuesta una petición; cien detalles, cien.</p>
+        <pre class="codigo">GET /plants?pageSize=100&amp;in.species=true&amp;in.placementZone=true</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="limites">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Límites</h2>
+        <p class="intro">Para que un script no deje sin servicio a quienes usan la app en campo. Se cuentan por llave, en toda la API.</p>
+      </div>
+      <div class="prosa">
+        <table class="limites">
+          <tbody>
+            <tr><th scope="row">120 / minuto</th><td>Peticiones por llave, en ráfaga. Unas 2 por segundo.</td></tr>
+            <tr><th scope="row">3,000 / hora</th><td>Peticiones por llave, sostenidas.</td></tr>
+            <tr><th scope="row">10 / hora</th><td>Exportaciones CSV por llave: cada una lee todo.</td></tr>
+            <tr><th scope="row">pageSize ≤ 100</th><td>Registros por página. Si pides más, recibes 100.</td></tr>
+          </tbody>
+        </table>
+        <p>Al pasarte, la respuesta es <code>429</code> con el encabezado <code>Retry-After</code>: los segundos que debes esperar. Respétalo y reintenta:</p>
+        <pre class="codigo">import os, time, requests
+
+def cuflora(ruta, **params):
+    url = "https://cuflora.kawi.page" + ruta
+    headers = {"Authorization": f"Bearer {os.environ['CUFLORA_KEY']}"}
+    while True:
+        r = requests.get(url, params=params, headers=headers)
+        if r.status_code != 429:
+            r.raise_for_status()
+            return r.json()
+        time.sleep(int(r.headers.get("Retry-After", "5")))
+
+<span class="com"># Todas las plantas, página por página</span>
+plantas, pagina = [], 1
+while True:
+    respuesta = cuflora("/plants", pageSize=100, pageNumber=pagina, **{"in.species": "true"})
+    plantas += respuesta["data"]
+    if not respuesta["pagination"]["hasNextPage"]:
+        break
+    pagina += 1</pre>
+        <p>El servidor está dentro de la red universitaria y su enlace es lento para archivos grandes: una ortofoto puede tardar minutos. Guarda en disco lo que ya bajaste.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="errores">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Errores</h2>
+        <p class="intro">Todos responden JSON con <code>statusCode</code> y <code>message</code>.</p>
+      </div>
+      <table class="limites">
+        <tbody>
+          <tr><th scope="row">400</th><td>Parámetro mal escrito, por ejemplo un filtro sin operador.</td></tr>
+          <tr><th scope="row">401</th><td>La llave no existe, está revocada o caducó.</td></tr>
+          <tr><th scope="row">403</th><td>La llave no permite esa ruta: no está en sus scopes, tu cuenta perdió el permiso o la ruta no acepta llaves.</td></tr>
+          <tr><th scope="row">404</th><td>No hay registro con ese id.</td></tr>
+          <tr><th scope="row">429</th><td>Pasaste un límite. Espera lo que diga <code>Retry-After</code>.</td></tr>
+          <tr><th scope="row">503</th><td>Un servicio interno no respondió. Reintenta en unos segundos.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel-tinta" id="referencia">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Referencia</h2>
+        <p class="intro">Cada operación con sus parámetros, filtros, includes, un ejemplo de respuesta y código listo para copiar. Se genera sola desde el código del servidor.</p>
+      </div>
+      <table class="stack-tabla">
+        <tbody>
+          <tr><th scope="row"><a href="referencia/plantas.html">Plantas</a></th><td>Listado, detalle, búsqueda y exportación CSV</td></tr>
+          <tr><th scope="row"><a href="referencia/taxonomia.html">Taxonomía</a></th><td>Familias, géneros y especies</td></tr>
+          <tr><th scope="row"><a href="referencia/mapas.html">Mapas</a></th><td>Mapas de flora y exportación por mapa o zona</td></tr>
+          <tr><th scope="row"><a href="referencia/reportes.html">Reportes</a></th><td>Observaciones, categorías, mediciones y fotos</td></tr>
+          <tr><th scope="row"><a href="referencia/imagenes.html">Imágenes</a></th><td>Fotos y ortofotos <span class="nota">(sin llave)</span></td></tr>
+          <tr><th scope="row"><a href="openapi.json">openapi.json</a></th><td>La especificación OpenAPI 3, para generar clientes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono"><a href="../">CuFlora</a> · <a href="referencia/">Referencia</a> · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+    <span class="mono">Hecho en México 🌱 por <a href="https://github.com/LaBoa99">LaBoa99</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

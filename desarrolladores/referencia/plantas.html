@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plantas · API de CuFlora</title>
+<meta name="description" content="Referencia de la API pública de CuFlora: Los ejemplares registrados: listado, detalle, búsqueda y exportación.">
+<meta name="theme-color" content="#A6F750">
+<link rel="icon" type="image/svg+xml" href="../../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/estilos.css">
+<link rel="stylesheet" href="../../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../../"><img src="../../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../../">Inicio</a>
+        <a href="../../desarrolladores/">Guía</a>
+        <a href="../../desarrolladores/referencia/" aria-current="page">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="../../desarrolladores/#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono"><a href="../">Desarrolladores</a> / <a href="./">Referencia</a> / Plantas</p>
+      <h1>Plantas</h1>
+      <p class="lead">4 operaciones de solo lectura. Los ejemplares registrados: listado, detalle, búsqueda y exportación.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Plantas</h2>
+        <p class="intro">Los ejemplares registrados: listado, detalle, búsqueda y exportación.</p>
+        <ul class="indice">
+          <li><a href="#get-plants">GET /plants</a></li>
+          <li><a href="#get-plants-search">GET /plants/search</a></li>
+          <li><a href="#get-plants-id">GET /plants/{id}</a></li>
+          <li><a href="#get-plants-export">GET /plants/export</a></li>
+        </ul>
+      </div>
+      <div class="acc ref">
+        <details id="get-plants" open>
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/plants</span><span class="res">Listar plantas</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Ejemplares registrados, paginados. Con <code>in.species=true</code> trae la especie de cada uno en la misma petición: es mejor que pedir el detalle de cada planta.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>plants:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.speciesId_eq</code><code>fi.genusId_eq</code><code>fi.familyId_eq</code><code>fi.mapId_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.family=true</code><code>in.genera=true</code><code>in.species=true</code><code>in.images=true</code><code>in.placement=true</code><code>in.tree=true</code><code>in.placementLocation=true</code><code>in.placementZone=true</code><code>in.placementMap=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 12,
+      &quot;scientificName&quot;: &quot;Agave tequilana&quot;,
+      &quot;commonName&quot;: &quot;Agave azul&quot;,
+      &quot;description&quot;: &quot;Ejemplar junto al andador norte&quot;,
+      &quot;speciesId&quot;: 3,
+      &quot;placementId&quot;: 12,
+      &quot;treeId&quot;: null,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/plants?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/plants?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/plants?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-plants-search">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/plants/search</span><span class="res">Buscar plantas</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Busca por nombre científico, nombre común o id (<code>term</code>; varias palabras deben aparecer todas). Devuelve una página como el listado.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Búsqueda paginada</dd>
+              <dt>Permiso</dt><dd><code>plants:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+                <tr><th scope="row">term</th><td class="tipo">consulta · string</td><td>Texto a buscar.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.speciesId_eq</code><code>fi.genusId_eq</code><code>fi.familyId_eq</code><code>fi.mapId_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.family=true</code><code>in.genera=true</code><code>in.species=true</code><code>in.images=true</code><code>in.placement=true</code><code>in.tree=true</code><code>in.placementLocation=true</code><code>in.placementZone=true</code><code>in.placementMap=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 12,
+      &quot;scientificName&quot;: &quot;Agave tequilana&quot;,
+      &quot;commonName&quot;: &quot;Agave azul&quot;,
+      &quot;description&quot;: &quot;Ejemplar junto al andador norte&quot;,
+      &quot;speciesId&quot;: 3,
+      &quot;placementId&quot;: 12,
+      &quot;treeId&quot;: null,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/plants/search?term=agave&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/plants/search?term=agave&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/plants/search?term=agave&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-plants-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/plants/{id}</span><span class="res">Ver una planta</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Un ejemplar por su id. Con <code>in.placementLocation=true</code> y <code>in.placementZone=true</code> trae dónde está.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>plants:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.family=true</code><code>in.genera=true</code><code>in.species=true</code><code>in.images=true</code><code>in.placement=true</code><code>in.tree=true</code><code>in.placementLocation=true</code><code>in.placementZone=true</code><code>in.placementMap=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 12,
+  &quot;scientificName&quot;: &quot;Agave tequilana&quot;,
+  &quot;commonName&quot;: &quot;Agave azul&quot;,
+  &quot;description&quot;: &quot;Ejemplar junto al andador norte&quot;,
+  &quot;speciesId&quot;: 3,
+  &quot;placementId&quot;: 12,
+  &quot;treeId&quot;: null,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/plants/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/plants/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/plants/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-plants-export">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/plants/export</span><span class="res">Exportar plantas a CSV</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Todas las plantas en un CSV (UTF-8 con BOM, separado por comas). Se puede agrupar y filtrar por especie, género o familia.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Archivo CSV · 10 por hora por llave</dd>
+              <dt>Permiso</dt><dd><code>plants:export</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">groupBy</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">speciesId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">genusId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">familyId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">search</th><td class="tipo">consulta · string</td><td></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · text/csv · ejemplo</span><pre class="codigo">id,nombre_cientifico,nombre_comun,especie,genero,familia,zona,latitud,longitud
+12,Agave tequilana,Agave azul,…</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/plants/export&quot; \
+  -o cuflora.csv</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/plants/export&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+open(&quot;cuflora.csv&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/plants/export&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const csv = await r.text();</pre></details>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

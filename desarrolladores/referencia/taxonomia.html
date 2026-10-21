@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxonomía · API de CuFlora</title>
+<meta name="description" content="Referencia de la API pública de CuFlora: Familias, géneros y especies. Cada nivel se puede listar y consultar por id.">
+<meta name="theme-color" content="#A6F750">
+<link rel="icon" type="image/svg+xml" href="../../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/estilos.css">
+<link rel="stylesheet" href="../../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../../"><img src="../../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../../">Inicio</a>
+        <a href="../../desarrolladores/">Guía</a>
+        <a href="../../desarrolladores/referencia/" aria-current="page">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="../../desarrolladores/#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono"><a href="../">Desarrolladores</a> / <a href="./">Referencia</a> / Taxonomía</p>
+      <h1>Taxonomía</h1>
+      <p class="lead">6 operaciones de solo lectura. Familias, géneros y especies. Cada nivel se puede listar y consultar por id.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Taxonomía</h2>
+        <p class="intro">Familias, géneros y especies. Cada nivel se puede listar y consultar por id.</p>
+        <ul class="indice">
+          <li><a href="#get-genus">GET /genus</a></li>
+          <li><a href="#get-family">GET /family</a></li>
+          <li><a href="#get-species">GET /species</a></li>
+          <li><a href="#get-genus-id">GET /genus/{id}</a></li>
+          <li><a href="#get-family-id">GET /family/{id}</a></li>
+          <li><a href="#get-species-id">GET /species/{id}</a></li>
+        </ul>
+      </div>
+      <div class="acc ref">
+        <details id="get-genus" open>
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/genus</span><span class="res">Listar géneros</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Géneros registrados, paginados. Filtra por familia con <code>fi.familyId_eq</code>.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>genus:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.familyId_eq</code><code>fi.mapId_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.family=true</code><code>in.species=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;Agave&quot;,
+      &quot;description&quot;: null,
+      &quot;familyId&quot;: 1,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/genus?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/genus?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/genus?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-family">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/family</span><span class="res">Listar familias</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Familias botánicas registradas, paginadas.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>family:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.mapId_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.genera=true</code><code>in.plants=true</code><code>in.species=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Asparagaceae&quot;,
+      &quot;description&quot;: &quot;Familia de los agaves&quot;,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/family?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/family?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/family?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-species">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/species</span><span class="res">Listar especies</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Especies registradas, paginadas.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>species:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.genusId_eq</code><code>fi.familyId_eq</code><code>fi.mapId_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.genus=true</code><code>in.plants=true</code><code>in.family=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 3,
+      &quot;scientificName&quot;: &quot;Agave tequilana&quot;,
+      &quot;commonName&quot;: &quot;Agave azul&quot;,
+      &quot;description&quot;: null,
+      &quot;genusId&quot;: 2,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/species?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/species?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/species?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-genus-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/genus/{id}</span><span class="res">Ver un género</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Un género por su id.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>genus:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.family=true</code><code>in.species=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 2,
+  &quot;name&quot;: &quot;Agave&quot;,
+  &quot;description&quot;: null,
+  &quot;familyId&quot;: 1,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/genus/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/genus/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/genus/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-family-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/family/{id}</span><span class="res">Ver una familia</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Una familia por su id. Con <code>in.genera=true</code> trae sus géneros.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>family:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.genera=true</code><code>in.plants=true</code><code>in.species=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;Asparagaceae&quot;,
+  &quot;description&quot;: &quot;Familia de los agaves&quot;,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/family/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/family/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/family/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-species-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/species/{id}</span><span class="res">Ver una especie</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Una especie por su id. Con <code>in.plants=true</code> trae sus ejemplares.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>species:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.genus=true</code><code>in.plants=true</code><code>in.family=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 3,
+  &quot;scientificName&quot;: &quot;Agave tequilana&quot;,
+  &quot;commonName&quot;: &quot;Agave azul&quot;,
+  &quot;description&quot;: null,
+  &quot;genusId&quot;: 2,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/species/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/species/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/species/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referencia · API de CuFlora</title>
+<meta name="description" content="Referencia de la API pública de solo lectura de CuFlora, generada desde el código.">
+<meta name="theme-color" content="#A6F750">
+<link rel="icon" type="image/svg+xml" href="../../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/estilos.css">
+<link rel="stylesheet" href="../../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../../"><img src="../../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../../">Inicio</a>
+        <a href="../../desarrolladores/">Guía</a>
+        <a href="../../desarrolladores/referencia/" aria-current="page">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="../../desarrolladores/#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono"><a href="../">Desarrolladores</a> / Referencia</p>
+      <h1>Referencia de la API</h1>
+      <p class="lead">27 operaciones en 5 grupos. Esta página se genera sola desde el código del gateway en cada cambio.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Referencia</h2>
+        <p class="intro">Todas las operaciones son de lectura y piden una llave de API, salvo las de imágenes. Servidor: <code>https://cuflora.kawi.page</code>.</p>
+      </div>
+      <ul class="ref-lista">
+          <li><a href="plantas.html"><div><strong>Plantas</strong><span>Los ejemplares registrados: listado, detalle, búsqueda y exportación.</span></div><span class="mono">4 operaciones</span></a></li>
+          <li><a href="taxonomia.html"><div><strong>Taxonomía</strong><span>Familias, géneros y especies. Cada nivel se puede listar y consultar por id.</span></div><span class="mono">6 operaciones</span></a></li>
+          <li><a href="mapas.html"><div><strong>Mapas</strong><span>Mapas de flora sobre ortofotos georreferenciadas, y exportación de sus plantas y reportes.</span></div><span class="mono">5 operaciones</span></a></li>
+          <li><a href="reportes.html"><div><strong>Reportes</strong><span>Observaciones de campo, sus categorías, mediciones y fotos.</span></div><span class="mono">10 operaciones</span></a></li>
+          <li><a href="imagenes.html"><div><strong>Imágenes</strong><span>Archivos de fotos y ortofotos. No piden llave.</span></div><span class="mono">2 operaciones</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reportes · API de CuFlora</title>
+<meta name="description" content="Referencia de la API pública de CuFlora: Observaciones de campo, sus categorías, mediciones y fotos.">
+<meta name="theme-color" content="#A6F750">
+<link rel="icon" type="image/svg+xml" href="../../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/estilos.css">
+<link rel="stylesheet" href="../../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../../"><img src="../../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../../">Inicio</a>
+        <a href="../../desarrolladores/">Guía</a>
+        <a href="../../desarrolladores/referencia/" aria-current="page">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="../../desarrolladores/#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono"><a href="../">Desarrolladores</a> / <a href="./">Referencia</a> / Reportes</p>
+      <h1>Reportes</h1>
+      <p class="lead">10 operaciones de solo lectura. Observaciones de campo, sus categorías, mediciones y fotos.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Reportes</h2>
+        <p class="intro">Observaciones de campo, sus categorías, mediciones y fotos.</p>
+        <ul class="indice">
+          <li><a href="#get-reports">GET /reports</a></li>
+          <li><a href="#get-report-images">GET /report-images</a></li>
+          <li><a href="#get-report-categories">GET /report-categories</a></li>
+          <li><a href="#get-report-measurements">GET /report-measurements</a></li>
+          <li><a href="#get-reports-id">GET /reports/{id}</a></li>
+          <li><a href="#get-report-images-id">GET /report-images/{id}</a></li>
+          <li><a href="#get-report-categories-id">GET /report-categories/{id}</a></li>
+          <li><a href="#get-report-measurements-id">GET /report-measurements/{id}</a></li>
+          <li><a href="#get-reports-export">GET /reports/export</a></li>
+          <li><a href="#get-reports-measurements-export">GET /reports/measurements/export</a></li>
+        </ul>
+      </div>
+      <div class="acc ref">
+        <details id="get-reports" open>
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/reports</span><span class="res">Listar reportes</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Observaciones de campo (estado vital, fenología, daños, plagas, medidas…), paginadas. Filtra por planta con <code>fi.subjectId_eq</code>.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>reports:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.subjectId_eq</code><code>fi.reporterId_eq</code><code>fi.parentId_eq</code><code>fi.createdAt_eq</code><code>fi.createdFrom_eq</code><code>fi.createdTo_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.children=true</code><code>in.images=true</code><code>in.mainCategory=true</code><code>in.measurement=true</code><code>in.parent=true</code><code>in.subcategory=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 40,
+      &quot;mainCategoryId&quot;: 7,
+      &quot;subcategoryId&quot;: 52,
+      &quot;subjectId&quot;: 12,
+      &quot;reporterId&quot;: 9,
+      &quot;description&quot;: &quot;Floración inicial&quot;,
+      &quot;parentId&quot;: null,
+      &quot;replyKind&quot;: null,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/reports?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/reports?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/reports?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-report-images">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/report-images</span><span class="res">Listar fotos de reportes</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Qué imagen va con qué reporte. La imagen se descarga con <code>GET /images/{id}</code>.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>report-images:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 5,
+      &quot;reportId&quot;: 40,
+      &quot;imageId&quot;: 31,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/report-images?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/report-images?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/report-images?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-report-categories">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/report-categories</span><span class="res">Listar categorías de reporte</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Las 8 categorías raíz y sus subtipos. Un subtipo tiene <code>parentId</code>; los de medidas traen <code>defaultUnit</code>.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>report-categories:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            <div><span class="chips-titulo">Filtros · fi.&lt;campo&gt;_&lt;op&gt;=valor</span><div class="chips"><code>fi.parent_eq</code></div></div>
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.parent=true</code><code>in.subcategories=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 7,
+      &quot;name&quot;: &quot;Medidas&quot;,
+      &quot;description&quot;: null,
+      &quot;parentId&quot;: null,
+      &quot;defaultUnit&quot;: null,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/report-categories?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/report-categories?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/report-categories?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-report-measurements">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/report-measurements</span><span class="res">Listar mediciones</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Valores medidos en los reportes de medidas, paginados.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>report-measurements:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.report=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 8,
+      &quot;reportId&quot;: 41,
+      &quot;value&quot;: &quot;1.8500&quot;,
+      &quot;measurementUnit&quot;: &quot;m&quot;,
+      &quot;year&quot;: 2026,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/report-measurements?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/report-measurements?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/report-measurements?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-reports-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/reports/{id}</span><span class="res">Ver un reporte</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Un reporte por su id. Con <code>in.measurement=true</code> trae la medición, si la tiene.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>reports:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.children=true</code><code>in.images=true</code><code>in.mainCategory=true</code><code>in.measurement=true</code><code>in.parent=true</code><code>in.subcategory=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 40,
+  &quot;mainCategoryId&quot;: 7,
+  &quot;subcategoryId&quot;: 52,
+  &quot;subjectId&quot;: 12,
+  &quot;reporterId&quot;: 9,
+  &quot;description&quot;: &quot;Floración inicial&quot;,
+  &quot;parentId&quot;: null,
+  &quot;replyKind&quot;: null,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/reports/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/reports/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/reports/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-report-images-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/report-images/{id}</span><span class="res">Ver una foto de reporte</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Una relación foto-reporte por su id.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>report-images:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 5,
+  &quot;reportId&quot;: 40,
+  &quot;imageId&quot;: 31,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/report-images/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/report-images/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/report-images/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-report-categories-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/report-categories/{id}</span><span class="res">Ver una categoría de reporte</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Una categoría o subtipo por su id.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>report-categories:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.parent=true</code><code>in.subcategories=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 7,
+  &quot;name&quot;: &quot;Medidas&quot;,
+  &quot;description&quot;: null,
+  &quot;parentId&quot;: null,
+  &quot;defaultUnit&quot;: null,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/report-categories/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/report-categories/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/report-categories/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-report-measurements-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/report-measurements/{id}</span><span class="res">Ver una medición</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Una medición por su id.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>report-measurements:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.report=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 8,
+  &quot;reportId&quot;: 41,
+  &quot;value&quot;: &quot;1.8500&quot;,
+  &quot;measurementUnit&quot;: &quot;m&quot;,
+  &quot;year&quot;: 2026,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/report-measurements/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/report-measurements/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/report-measurements/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-reports-export">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/reports/export</span><span class="res">Exportar reportes a CSV</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Reportes en un CSV. Filtra por planta (<code>subjectId</code>) y por día (<code>from</code>, <code>to</code>, en formato AAAA-MM-DD, incluidos).</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Archivo CSV · 10 por hora por llave</dd>
+              <dt>Permiso</dt><dd><code>reports:export</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">subjectId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">reporterId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">from</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">to</th><td class="tipo">consulta · string</td><td></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · text/csv · ejemplo</span><pre class="codigo">id,fecha,categoria,subtipo,planta,…</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/reports/export&quot; \
+  -o cuflora.csv</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/reports/export&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+open(&quot;cuflora.csv&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/reports/export&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const csv = await r.text();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-reports-measurements-export">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/reports/measurements/export</span><span class="res">Exportar mediciones a CSV</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Un renglón por medición, en un CSV para análisis. Filtra por planta (<code>subjectId</code>), por qué se midió (<code>subcategoryId</code>) y por día (<code>from</code>, <code>to</code>).</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Archivo CSV · 10 por hora por llave</dd>
+              <dt>Permiso</dt><dd><code>reports:export</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">subjectId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">subcategoryId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">from</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">to</th><td class="tipo">consulta · string</td><td></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · text/csv · ejemplo</span><pre class="codigo">planta,metrica,valor,unidad,año,…</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/reports/measurements/export&quot; \
+  -o cuflora.csv</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/reports/measurements/export&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+open(&quot;cuflora.csv&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/reports/measurements/export&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const csv = await r.text();</pre></details>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

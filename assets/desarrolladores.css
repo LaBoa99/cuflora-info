@@ -1,0 +1,174 @@
+/* Documentación para desarrolladores (desarrolladores/). Se apoya en estilos.css:
+   mismos tokens (--lima, --tinta, --oliva, --hairline), tipografías y componentes
+   (.panel, .sec-grid, .acc, .pasos). Aquí solo lo que la landing no necesitaba. */
+
+/* Cabecera de página: el hero de la landing, más bajo */
+.doc-hero .hero-int { padding-block: clamp(2.2rem, 6vw, 3.8rem); }
+.doc-hero h1 {
+  font-weight: 900;
+  font-stretch: 122%;
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.doc-hero .lead {
+  margin-top: 1rem;
+  max-width: 38rem;
+  font-size: clamp(1rem, 1.8vw, 1.12rem);
+  color: var(--oliva-lima);
+}
+.doc-hero .migas { margin-bottom: 1rem; color: var(--oliva-lima); }
+.doc-hero .migas a { text-underline-offset: 0.3em; }
+.nav-links a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.25em; }
+
+/* Código */
+code, .codigo {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+p code, li code, td code, dd code, .cuerpo code {
+  font-size: 0.85em;
+  background: rgba(19, 24, 7, 0.06);
+  padding: 0.05em 0.3em;
+  overflow-wrap: anywhere;
+}
+.panel-tinta p code { background: rgba(247, 250, 238, 0.1); }
+pre.codigo {
+  background: var(--tinta);
+  color: #f7faee;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  margin-top: 0.6rem;
+  tab-size: 4;
+  scrollbar-color: var(--lima) transparent;
+}
+pre.codigo .com { color: rgba(247, 250, 238, 0.55); }
+
+/* Ejemplos por lenguaje: details compactos, el primero abierto */
+.ejemplos { margin-top: 1.1rem; display: grid; gap: 0.4rem; }
+.ejemplos details > summary {
+  list-style: none;
+  cursor: pointer;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--oliva);
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.ejemplos details > summary::-webkit-details-marker { display: none; }
+.ejemplos details > summary::before { content: "+"; transition: transform var(--t-fast) var(--ease); }
+.ejemplos details[open] > summary::before { transform: rotate(45deg); }
+.ejemplos details > summary:hover { color: var(--tinta); }
+
+/* Método y ruta en el resumen de cada operación */
+.metodo {
+  display: inline-block;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  background: var(--tinta);
+  color: var(--lima);
+  padding: 0.12rem 0.45rem;
+}
+.acc.ref summary { grid-template-columns: 5.5rem 1fr auto; }
+.acc.ref h3 .ruta {
+  display: block;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.acc.ref h3 .res { display: block; font-weight: 400; color: var(--oliva); font-size: 0.92rem; margin-top: 0.1rem; }
+@media (max-width: 34rem) {
+  .acc.ref summary { grid-template-columns: 1fr auto; }
+  .acc.ref .clave { display: block; grid-column: 1 / -1; }
+}
+.acc.ref .cuerpo { max-width: none; color: var(--tinta); }
+.acc.ref .cuerpo > p { color: var(--oliva); }
+.acc.ref .cuerpo > * + * { margin-top: 1rem; }
+
+/* Datos de la operación: permiso, tipo */
+.ficha {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  font-size: 0.9rem;
+}
+.ficha dt {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--oliva);
+  padding-top: 0.12rem;
+}
+
+/* Tabla de parámetros: la de la arquitectura, sobre blanco */
+.params { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.params caption {
+  text-align: left;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--oliva);
+  padding-bottom: 0.4rem;
+}
+.params tr { border-top: 1px solid var(--hairline); }
+.params th, .params td { text-align: left; padding: 0.5rem 1rem 0.5rem 0; vertical-align: baseline; font-weight: 400; }
+.params th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; white-space: nowrap; }
+.params td.tipo { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; color: var(--oliva); white-space: nowrap; }
+.params td { color: var(--oliva); }
+@media (max-width: 34rem) {
+  .params th, .params td.tipo { white-space: normal; }
+}
+
+/* Filtros e includes como etiquetas */
+.chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+.chips code {
+  font-size: 0.78rem;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  padding: 0.1rem 0.45rem;
+}
+.chips-titulo { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; color: var(--oliva); }
+
+/* Índice de la referencia */
+.ref-lista { list-style: none; border-top: 1px solid var(--hairline); }
+.ref-lista li { border-bottom: 1px solid var(--hairline); }
+.ref-lista a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding-block: 0.9rem;
+  text-decoration: none;
+  transition: background-color var(--t-fast) var(--ease);
+}
+.ref-lista a:hover { background: rgba(19, 24, 7, 0.035); }
+.ref-lista strong { font-weight: 700; font-size: 1.02rem; }
+.ref-lista span { display: block; color: var(--oliva); font-size: 0.92rem; }
+.ref-lista .mono { color: var(--oliva); white-space: nowrap; }
+
+/* Índice lateral de operaciones dentro de una página de referencia */
+.indice { list-style: none; margin-top: 1.2rem; display: grid; gap: 0.3rem; }
+.indice a { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; text-decoration: none; color: var(--oliva); overflow-wrap: anywhere; }
+.indice a:hover { color: var(--tinta); text-decoration: underline; text-underline-offset: 0.25em; }
+
+/* Avisos y tablas de límites */
+.aviso { border: 1px dashed var(--tinta); padding: 1rem 1.2rem; font-size: 0.93rem; }
+.aviso strong { font-weight: 750; }
+.limites { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+.limites tr { border-top: 1px solid var(--hairline); }
+.limites tr:first-child { border-top: 0; }
+.limites th, .limites td { text-align: left; padding-block: 0.6rem; vertical-align: baseline; font-weight: 400; }
+.limites th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8125rem; padding-right: 1rem; white-space: nowrap; width: 10rem; }
+.limites td { color: var(--oliva); }
+.prosa > * + * { margin-top: 0.9rem; }
+.prosa p, .prosa li { color: var(--oliva); font-size: 0.95rem; }
+.prosa ul { padding-left: 1.1rem; }
+.prosa h3 { font-weight: 750; font-size: 1.02rem; color: var(--tinta); }
+.prosa a { color: var(--tinta); font-weight: 650; }
+
+.generada { color: var(--oliva-lima); }

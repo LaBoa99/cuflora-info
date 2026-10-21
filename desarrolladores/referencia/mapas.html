@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapas · API de CuFlora</title>
+<meta name="description" content="Referencia de la API pública de CuFlora: Mapas de flora sobre ortofotos georreferenciadas, y exportación de sus plantas y reportes.">
+<meta name="theme-color" content="#A6F750">
+<link rel="icon" type="image/svg+xml" href="../../assets/cuflora.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/estilos.css">
+<link rel="stylesheet" href="../../assets/desarrolladores.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="../../"><img src="../../assets/cuflora.svg" alt="Logo de CuFlora">CuFlora</a>
+    <div class="nav-der">
+      <nav class="nav-links" aria-label="Desarrolladores">
+        <a href="../../">Inicio</a>
+        <a href="../../desarrolladores/">Guía</a>
+        <a href="../../desarrolladores/referencia/" aria-current="page">Referencia</a>
+      </nav>
+      <a class="btn-nav" href="../../desarrolladores/#llave">Obtener llave</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero doc-hero">
+    <div class="wrap hero-int">
+      <p class="migas mono"><a href="../">Desarrolladores</a> / <a href="./">Referencia</a> / Mapas</p>
+      <h1>Mapas</h1>
+      <p class="lead">5 operaciones de solo lectura. Mapas de flora sobre ortofotos georreferenciadas, y exportación de sus plantas y reportes.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="wrap sec-grid">
+      <div>
+        <h2>Mapas</h2>
+        <p class="intro">Mapas de flora sobre ortofotos georreferenciadas, y exportación de sus plantas y reportes.</p>
+        <ul class="indice">
+          <li><a href="#get-flora-maps">GET /flora-maps</a></li>
+          <li><a href="#get-flora-maps-id">GET /flora-maps/{id}</a></li>
+          <li><a href="#get-flora-maps-id-export">GET /flora-maps/{id}/export</a></li>
+          <li><a href="#get-flora-maps-mapid-zones-zoneid-export">GET /flora-maps/{mapId}/zones/{zoneId}/export</a></li>
+          <li><a href="#get-flora-maps-mapid-zones-zoneid-reports-export">GET /flora-maps/{mapId}/zones/{zoneId}/reports/export</a></li>
+        </ul>
+      </div>
+      <div class="acc ref">
+        <details id="get-flora-maps" open>
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/flora-maps</span><span class="res">Listar mapas</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Mapas de flora: una ortofoto georreferenciada con sus zonas.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Lista paginada</dd>
+              <dt>Permiso</dt><dd><code>flora-maps:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">pageNumber</th><td class="tipo">consulta · integer</td><td>Página, desde 1.</td></tr>
+                <tr><th scope="row">pageSize</th><td class="tipo">consulta · integer</td><td>Registros por página. Con llave, máximo 100.</td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.placements=true</code><code>in.plants=true</code><code>in.zones=true</code><code>in.placement_points=true</code><code>in.polygons=true</code><code>in.children_zones=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;CUValles&quot;,
+      &quot;description&quot;: &quot;Jardín botánico&quot;,
+      &quot;imageId&quot;: 1,
+      &quot;georeference&quot;: &quot;{\&quot;corners\&quot;:[…]}&quot;,
+      &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+      &quot;deletedAt&quot;: null,
+      &quot;enabled&quot;: true
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;pageNumber&quot;: 1,
+    &quot;pageSize&quot;: 25,
+    &quot;totalCount&quot;: 25,
+    &quot;totalPages&quot;: 1,
+    &quot;hasNextPage&quot;: false,
+    &quot;hasPreviousPage&quot;: false
+  }
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/flora-maps?pageSize=100&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/flora-maps?pageSize=100&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/flora-maps?pageSize=100&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-flora-maps-id">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/flora-maps/{id}</span><span class="res">Ver un mapa</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Un mapa por su id, con su georreferencia (las cuatro esquinas de la ortofoto).</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Un registro</dd>
+              <dt>Permiso</dt><dd><code>flora-maps:read</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+              </tbody>
+            </table>
+            
+            <div><span class="chips-titulo">Includes · in.&lt;relación&gt;=true</span><div class="chips"><code>in.placements=true</code><code>in.plants=true</code><code>in.zones=true</code><code>in.placement_points=true</code><code>in.polygons=true</code><code>in.children_zones=true</code></div></div>
+            <div><span class="chips-titulo">Respuesta 200 · application/json · ejemplo</span><pre class="codigo">{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;CUValles&quot;,
+  &quot;description&quot;: &quot;Jardín botánico&quot;,
+  &quot;imageId&quot;: 1,
+  &quot;georeference&quot;: &quot;{\&quot;corners\&quot;:[…]}&quot;,
+  &quot;createdAt&quot;: &quot;2026-08-21T17:04:11.000Z&quot;,
+  &quot;updatedAt&quot;: &quot;2026-09-28T19:40:02.000Z&quot;,
+  &quot;deletedAt&quot;: null,
+  &quot;enabled&quot;: true
+}</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/flora-maps/1&quot;</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/flora-maps/1&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+datos = r.json()</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/flora-maps/1&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const datos = await r.json();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-flora-maps-id-export">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/flora-maps/{id}/export</span><span class="res">Exportar las plantas de un mapa</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Las plantas de un mapa y sus zonas en un CSV, con coordenadas.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Archivo CSV · 10 por hora por llave</dd>
+              <dt>Permiso</dt><dd><code>plants:export</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">id</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">groupBy</th><td class="tipo">consulta · string</td><td></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · text/csv · ejemplo</span><pre class="codigo">id,nombre_cientifico,nombre_comun,especie,genero,familia,zona,latitud,longitud
+12,Agave tequilana,Agave azul,…</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/flora-maps/1/export&quot; \
+  -o cuflora.csv</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/flora-maps/1/export&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+open(&quot;cuflora.csv&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/flora-maps/1/export&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const csv = await r.text();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-flora-maps-mapid-zones-zoneid-export">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/flora-maps/{mapId}/zones/{zoneId}/export</span><span class="res">Exportar las plantas de una zona</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Las plantas de una zona, sus subzonas y su mapa dedicado, en un CSV.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Archivo CSV · 10 por hora por llave</dd>
+              <dt>Permiso</dt><dd><code>plants:export</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">mapId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">zoneId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">groupBy</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">speciesId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">genusId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">familyId</th><td class="tipo">consulta · number</td><td></td></tr>
+                <tr><th scope="row">search</th><td class="tipo">consulta · string</td><td></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · text/csv · ejemplo</span><pre class="codigo">id,nombre_cientifico,nombre_comun,especie,genero,familia,zona,latitud,longitud
+12,Agave tequilana,Agave azul,…</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/flora-maps/1/zones/2/export&quot; \
+  -o cuflora.csv</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/flora-maps/1/zones/2/export&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+open(&quot;cuflora.csv&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/flora-maps/1/zones/2/export&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const csv = await r.text();</pre></details>
+            </div>
+          </div>
+        </details>
+        <details id="get-flora-maps-mapid-zones-zoneid-reports-export">
+          <summary><span class="clave"><span class="metodo">GET</span></span><h3><span class="ruta">/flora-maps/{mapId}/zones/{zoneId}/reports/export</span><span class="res">Exportar los reportes de una zona</span></h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo">
+            <p>Los reportes de las plantas de una zona en un CSV.</p>
+            <dl class="ficha">
+              <dt>Tipo</dt><dd>Archivo CSV · 10 por hora por llave</dd>
+              <dt>Permiso</dt><dd><code>reports:export</code></dd>
+            </dl>
+            <table class="params">
+              <caption>Parámetros</caption>
+              <tbody>
+                <tr><th scope="row">mapId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">zoneId</th><td class="tipo">ruta · number</td><td> <b>Obligatorio.</b></td></tr>
+                <tr><th scope="row">from</th><td class="tipo">consulta · string</td><td></td></tr>
+                <tr><th scope="row">to</th><td class="tipo">consulta · string</td><td></td></tr>
+              </tbody>
+            </table>
+            
+            
+            <div><span class="chips-titulo">Respuesta 200 · text/csv · ejemplo</span><pre class="codigo">id,fecha,categoria,subtipo,planta,…</pre></div>
+            <div class="ejemplos">
+              <details open><summary>curl</summary><pre class="codigo">curl -H &quot;Authorization: Bearer $CUFLORA_KEY&quot; \
+  &quot;https://cuflora.kawi.page/flora-maps/1/zones/2/reports/export&quot; \
+  -o cuflora.csv</pre></details>
+              <details><summary>Python</summary><pre class="codigo">import os, requests
+
+r = requests.get(&quot;https://cuflora.kawi.page/flora-maps/1/zones/2/reports/export&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['CUFLORA_KEY']}&quot;})
+r.raise_for_status()
+open(&quot;cuflora.csv&quot;, &quot;wb&quot;).write(r.content)</pre></details>
+              <details><summary>JavaScript</summary><pre class="codigo">const r = await fetch(&quot;https://cuflora.kawi.page/flora-maps/1/zones/2/reports/export&quot;, {
+  headers: { Authorization: `Bearer ${process.env.CUFLORA_KEY}` },
+});
+if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const csv = await r.text();</pre></details>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono generada">Generada desde master @2713650 · <a href="../../desarrolladores/openapi.json">openapi.json</a></span>
+    <span class="mono">CuFlora © 2026 · <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=API%20CuFlora">Contacto</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1749 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/images/{id}/meta": {
+      "get": {
+        "operationId": "ImageController_getMeta",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "filename": "cuvalles",
+                  "extension": "png",
+                  "size": 6217821,
+                  "width": 1432,
+                  "height": 2675,
+                  "createdAt": "2026-08-21T17:04:11.000Z"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Ver los datos de una imagen",
+        "tags": [
+          "Imágenes"
+        ],
+        "x-publica": true,
+        "description": "Tamaño y tipo de una imagen, sin descargarla. No pide llave.",
+        "x-tipo": "abierta",
+        "security": []
+      }
+    },
+    "/images/{id}": {
+      "get": {
+        "operationId": "ImageController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Imágenes"
+        ],
+        "x-publica": true,
+        "summary": "Descargar una imagen",
+        "description": "El archivo de una imagen (foto o ortofoto). No pide llave. Acepta `Range` para descargas parciales; las ortofotos pueden pesar varios MB.",
+        "x-tipo": "abierta",
+        "security": []
+      }
+    },
+    "/plants/export": {
+      "get": {
+        "operationId": "PlantsController_exportCatalog",
+        "parameters": [
+          {
+            "name": "groupBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "speciesId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "genusId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "familyId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo CSV",
+            "content": {
+              "text/csv": {
+                "example": "id,nombre_cientifico,nombre_comun,especie,genero,familia,zona,latitud,longitud\n12,Agave tequilana,Agave azul,…"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Plantas"
+        ],
+        "x-permisos": [
+          "plants:export"
+        ],
+        "x-publica": true,
+        "summary": "Exportar plantas a CSV",
+        "description": "Todas las plantas en un CSV (UTF-8 con BOM, separado por comas). Se puede agrupar y filtrar por especie, género o familia.",
+        "x-tipo": "exportacion"
+      }
+    },
+    "/plants": {
+      "get": {
+        "operationId": "PlantsController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 12,
+                      "scientificName": "Agave tequilana",
+                      "commonName": "Agave azul",
+                      "description": "Ejemplar junto al andador norte",
+                      "speciesId": 3,
+                      "placementId": 12,
+                      "treeId": null,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Plantas"
+        ],
+        "x-permisos": [
+          "plants:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar plantas",
+        "description": "Ejemplares registrados, paginados. Con `in.species=true` trae la especie de cada uno en la misma petición: es mejor que pedir el detalle de cada planta.",
+        "x-tipo": "lista",
+        "x-filtros": [
+          "speciesId",
+          "genusId",
+          "familyId",
+          "mapId"
+        ],
+        "x-includes": [
+          "family",
+          "genera",
+          "species",
+          "images",
+          "placement",
+          "tree",
+          "placementLocation",
+          "placementZone",
+          "placementMap"
+        ]
+      }
+    },
+    "/plants/search": {
+      "get": {
+        "operationId": "PlantsController_search",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "required": false,
+            "description": "Texto a buscar.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 12,
+                      "scientificName": "Agave tequilana",
+                      "commonName": "Agave azul",
+                      "description": "Ejemplar junto al andador norte",
+                      "speciesId": 3,
+                      "placementId": 12,
+                      "treeId": null,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Plantas"
+        ],
+        "x-permisos": [
+          "plants:read"
+        ],
+        "x-publica": true,
+        "summary": "Buscar plantas",
+        "description": "Busca por nombre científico, nombre común o id (`term`; varias palabras deben aparecer todas). Devuelve una página como el listado.",
+        "x-tipo": "busqueda",
+        "x-filtros": [
+          "speciesId",
+          "genusId",
+          "familyId",
+          "mapId"
+        ],
+        "x-includes": [
+          "family",
+          "genera",
+          "species",
+          "images",
+          "placement",
+          "tree",
+          "placementLocation",
+          "placementZone",
+          "placementMap"
+        ]
+      }
+    },
+    "/plants/{id}": {
+      "get": {
+        "operationId": "PlantsController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 12,
+                  "scientificName": "Agave tequilana",
+                  "commonName": "Agave azul",
+                  "description": "Ejemplar junto al andador norte",
+                  "speciesId": 3,
+                  "placementId": 12,
+                  "treeId": null,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Plantas"
+        ],
+        "x-permisos": [
+          "plants:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver una planta",
+        "description": "Un ejemplar por su id. Con `in.placementLocation=true` y `in.placementZone=true` trae dónde está.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "family",
+          "genera",
+          "species",
+          "images",
+          "placement",
+          "tree",
+          "placementLocation",
+          "placementZone",
+          "placementMap"
+        ]
+      }
+    },
+    "/genus": {
+      "get": {
+        "operationId": "GenusController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 2,
+                      "name": "Agave",
+                      "description": null,
+                      "familyId": 1,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Taxonomía"
+        ],
+        "x-permisos": [
+          "genus:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar géneros",
+        "description": "Géneros registrados, paginados. Filtra por familia con `fi.familyId_eq`.",
+        "x-tipo": "lista",
+        "x-filtros": [
+          "familyId",
+          "mapId"
+        ],
+        "x-includes": [
+          "family",
+          "species"
+        ]
+      }
+    },
+    "/genus/{id}": {
+      "get": {
+        "operationId": "GenusController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 2,
+                  "name": "Agave",
+                  "description": null,
+                  "familyId": 1,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Taxonomía"
+        ],
+        "x-permisos": [
+          "genus:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver un género",
+        "description": "Un género por su id.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "family",
+          "species"
+        ]
+      }
+    },
+    "/species": {
+      "get": {
+        "operationId": "SpeciesController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 3,
+                      "scientificName": "Agave tequilana",
+                      "commonName": "Agave azul",
+                      "description": null,
+                      "genusId": 2,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Taxonomía"
+        ],
+        "x-permisos": [
+          "species:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar especies",
+        "description": "Especies registradas, paginadas.",
+        "x-tipo": "lista",
+        "x-filtros": [
+          "genusId",
+          "familyId",
+          "mapId"
+        ],
+        "x-includes": [
+          "genus",
+          "plants",
+          "family"
+        ]
+      }
+    },
+    "/species/{id}": {
+      "get": {
+        "operationId": "SpeciesController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 3,
+                  "scientificName": "Agave tequilana",
+                  "commonName": "Agave azul",
+                  "description": null,
+                  "genusId": 2,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Taxonomía"
+        ],
+        "x-permisos": [
+          "species:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver una especie",
+        "description": "Una especie por su id. Con `in.plants=true` trae sus ejemplares.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "genus",
+          "plants",
+          "family"
+        ]
+      }
+    },
+    "/family": {
+      "get": {
+        "operationId": "FamilyController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "name": "Asparagaceae",
+                      "description": "Familia de los agaves",
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Taxonomía"
+        ],
+        "x-permisos": [
+          "family:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar familias",
+        "description": "Familias botánicas registradas, paginadas.",
+        "x-tipo": "lista",
+        "x-filtros": [
+          "mapId"
+        ],
+        "x-includes": [
+          "genera",
+          "plants",
+          "species"
+        ]
+      }
+    },
+    "/family/{id}": {
+      "get": {
+        "operationId": "FamilyController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "name": "Asparagaceae",
+                  "description": "Familia de los agaves",
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Taxonomía"
+        ],
+        "x-permisos": [
+          "family:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver una familia",
+        "description": "Una familia por su id. Con `in.genera=true` trae sus géneros.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "genera",
+          "plants",
+          "species"
+        ]
+      }
+    },
+    "/flora-maps/{id}/export": {
+      "get": {
+        "operationId": "FloraMapController_exportMap",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "groupBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo CSV",
+            "content": {
+              "text/csv": {
+                "example": "id,nombre_cientifico,nombre_comun,especie,genero,familia,zona,latitud,longitud\n12,Agave tequilana,Agave azul,…"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Mapas"
+        ],
+        "x-permisos": [
+          "plants:export"
+        ],
+        "x-publica": true,
+        "summary": "Exportar las plantas de un mapa",
+        "description": "Las plantas de un mapa y sus zonas en un CSV, con coordenadas.",
+        "x-tipo": "exportacion"
+      }
+    },
+    "/flora-maps/{mapId}/zones/{zoneId}/export": {
+      "get": {
+        "operationId": "FloraMapController_exportZone",
+        "parameters": [
+          {
+            "name": "mapId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "zoneId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "groupBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "speciesId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "genusId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "familyId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo CSV",
+            "content": {
+              "text/csv": {
+                "example": "id,nombre_cientifico,nombre_comun,especie,genero,familia,zona,latitud,longitud\n12,Agave tequilana,Agave azul,…"
+              }
+            }
+          }
+        },
+        "summary": "Exportar las plantas de una zona",
+        "tags": [
+          "Mapas"
+        ],
+        "x-permisos": [
+          "plants:export"
+        ],
+        "x-publica": true,
+        "description": "Las plantas de una zona, sus subzonas y su mapa dedicado, en un CSV.",
+        "x-tipo": "exportacion"
+      }
+    },
+    "/flora-maps/{mapId}/zones/{zoneId}/reports/export": {
+      "get": {
+        "operationId": "FloraMapController_exportZoneReports",
+        "parameters": [
+          {
+            "name": "mapId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "zoneId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo CSV",
+            "content": {
+              "text/csv": {
+                "example": "id,fecha,categoria,subtipo,planta,…"
+              }
+            }
+          }
+        },
+        "summary": "Exportar los reportes de una zona",
+        "tags": [
+          "Mapas"
+        ],
+        "x-permisos": [
+          "reports:export"
+        ],
+        "x-publica": true,
+        "description": "Los reportes de las plantas de una zona en un CSV.",
+        "x-tipo": "exportacion"
+      }
+    },
+    "/flora-maps": {
+      "get": {
+        "operationId": "FloraMapController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "name": "CUValles",
+                      "description": "Jardín botánico",
+                      "imageId": 1,
+                      "georeference": "{\"corners\":[…]}",
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Mapas"
+        ],
+        "x-permisos": [
+          "flora-maps:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar mapas",
+        "description": "Mapas de flora: una ortofoto georreferenciada con sus zonas.",
+        "x-tipo": "lista",
+        "x-includes": [
+          "placements",
+          "plants",
+          "zones",
+          "placement_points",
+          "polygons",
+          "children_zones"
+        ]
+      }
+    },
+    "/flora-maps/{id}": {
+      "get": {
+        "operationId": "FloraMapController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "name": "CUValles",
+                  "description": "Jardín botánico",
+                  "imageId": 1,
+                  "georeference": "{\"corners\":[…]}",
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Mapas"
+        ],
+        "x-permisos": [
+          "flora-maps:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver un mapa",
+        "description": "Un mapa por su id, con su georreferencia (las cuatro esquinas de la ortofoto).",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "placements",
+          "plants",
+          "zones",
+          "placement_points",
+          "polygons",
+          "children_zones"
+        ]
+      }
+    },
+    "/reports/export": {
+      "get": {
+        "operationId": "ReportController_exportReports",
+        "parameters": [
+          {
+            "name": "subjectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "reporterId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo CSV",
+            "content": {
+              "text/csv": {
+                "example": "id,fecha,categoria,subtipo,planta,…"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "reports:export"
+        ],
+        "x-publica": true,
+        "summary": "Exportar reportes a CSV",
+        "description": "Reportes en un CSV. Filtra por planta (`subjectId`) y por día (`from`, `to`, en formato AAAA-MM-DD, incluidos).",
+        "x-tipo": "exportacion"
+      }
+    },
+    "/reports/measurements/export": {
+      "get": {
+        "operationId": "ReportController_exportMeasurements",
+        "parameters": [
+          {
+            "name": "subjectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "subcategoryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo CSV",
+            "content": {
+              "text/csv": {
+                "example": "planta,metrica,valor,unidad,año,…"
+              }
+            }
+          }
+        },
+        "summary": "Exportar mediciones a CSV",
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "reports:export"
+        ],
+        "x-publica": true,
+        "description": "Un renglón por medición, en un CSV para análisis. Filtra por planta (`subjectId`), por qué se midió (`subcategoryId`) y por día (`from`, `to`).",
+        "x-tipo": "exportacion"
+      }
+    },
+    "/reports": {
+      "get": {
+        "operationId": "ReportController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 40,
+                      "mainCategoryId": 7,
+                      "subcategoryId": 52,
+                      "subjectId": 12,
+                      "reporterId": 9,
+                      "description": "Floración inicial",
+                      "parentId": null,
+                      "replyKind": null,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "reports:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar reportes",
+        "description": "Observaciones de campo (estado vital, fenología, daños, plagas, medidas…), paginadas. Filtra por planta con `fi.subjectId_eq`.",
+        "x-tipo": "lista",
+        "x-filtros": [
+          "subjectId",
+          "reporterId",
+          "parentId",
+          "createdAt",
+          "createdFrom",
+          "createdTo"
+        ],
+        "x-includes": [
+          "children",
+          "images",
+          "mainCategory",
+          "measurement",
+          "parent",
+          "subcategory"
+        ]
+      }
+    },
+    "/reports/{id}": {
+      "get": {
+        "operationId": "ReportController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 40,
+                  "mainCategoryId": 7,
+                  "subcategoryId": 52,
+                  "subjectId": 12,
+                  "reporterId": 9,
+                  "description": "Floración inicial",
+                  "parentId": null,
+                  "replyKind": null,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "reports:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver un reporte",
+        "description": "Un reporte por su id. Con `in.measurement=true` trae la medición, si la tiene.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "children",
+          "images",
+          "mainCategory",
+          "measurement",
+          "parent",
+          "subcategory"
+        ]
+      }
+    },
+    "/report-categories": {
+      "get": {
+        "operationId": "ReportCategoryController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 7,
+                      "name": "Medidas",
+                      "description": null,
+                      "parentId": null,
+                      "defaultUnit": null,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "report-categories:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar categorías de reporte",
+        "description": "Las 8 categorías raíz y sus subtipos. Un subtipo tiene `parentId`; los de medidas traen `defaultUnit`.",
+        "x-tipo": "lista",
+        "x-filtros": [
+          "parent"
+        ],
+        "x-includes": [
+          "parent",
+          "subcategories"
+        ]
+      }
+    },
+    "/report-categories/{id}": {
+      "get": {
+        "operationId": "ReportCategoryController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 7,
+                  "name": "Medidas",
+                  "description": null,
+                  "parentId": null,
+                  "defaultUnit": null,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "report-categories:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver una categoría de reporte",
+        "description": "Una categoría o subtipo por su id.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "parent",
+          "subcategories"
+        ]
+      }
+    },
+    "/report-measurements": {
+      "get": {
+        "operationId": "ReportMeasurementController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 8,
+                      "reportId": 41,
+                      "value": "1.8500",
+                      "measurementUnit": "m",
+                      "year": 2026,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "report-measurements:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar mediciones",
+        "description": "Valores medidos en los reportes de medidas, paginados.",
+        "x-tipo": "lista",
+        "x-includes": [
+          "report"
+        ]
+      }
+    },
+    "/report-measurements/{id}": {
+      "get": {
+        "operationId": "ReportMeasurementController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 8,
+                  "reportId": 41,
+                  "value": "1.8500",
+                  "measurementUnit": "m",
+                  "year": 2026,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "report-measurements:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver una medición",
+        "description": "Una medición por su id.",
+        "x-tipo": "detalle",
+        "x-includes": [
+          "report"
+        ]
+      }
+    },
+    "/report-images": {
+      "get": {
+        "operationId": "ReportImageController_getPagedList",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Página, desde 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Registros por página. Con llave, máximo 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 5,
+                      "reportId": 40,
+                      "imageId": 31,
+                      "createdAt": "2026-08-21T17:04:11.000Z",
+                      "updatedAt": "2026-09-28T19:40:02.000Z",
+                      "deletedAt": null,
+                      "enabled": true
+                    }
+                  ],
+                  "pagination": {
+                    "pageNumber": 1,
+                    "pageSize": 25,
+                    "totalCount": 25,
+                    "totalPages": 1,
+                    "hasNextPage": false,
+                    "hasPreviousPage": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "report-images:read"
+        ],
+        "x-publica": true,
+        "summary": "Listar fotos de reportes",
+        "description": "Qué imagen va con qué reporte. La imagen se descarga con `GET /images/{id}`.",
+        "x-tipo": "lista"
+      }
+    },
+    "/report-images/{id}": {
+      "get": {
+        "operationId": "ReportImageController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 5,
+                  "reportId": 40,
+                  "imageId": 31,
+                  "createdAt": "2026-08-21T17:04:11.000Z",
+                  "updatedAt": "2026-09-28T19:40:02.000Z",
+                  "deletedAt": null,
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reportes"
+        ],
+        "x-permisos": [
+          "report-images:read"
+        ],
+        "x-publica": true,
+        "summary": "Ver una foto de reporte",
+        "description": "Una relación foto-reporte por su id.",
+        "x-tipo": "detalle"
+      }
+    }
+  },
+  "info": {
+    "title": "CuFlora · API pública",
+    "version": "1.0",
+    "description": "Lectura de los datos de CuFlora (plantas, taxonomía, mapas, reportes y mediciones) con una llave de API. La llave se crea en la app: Perfil → Llaves de API. Se envía como `Authorization: Bearer cuf_…`."
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://cuflora.kawi.page",
+      "description": "Producción"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Llave de API `cuf_<prefijo>_<secreto>`."
+      }
+    },
+    "schemas": {}
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ]
+}
