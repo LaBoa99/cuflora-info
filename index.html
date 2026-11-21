@@ -34,6 +34,7 @@
         <a href="#caracteristicas">Características</a>
         <a href="#la-app">La app</a>
         <a href="#preguntas">Preguntas</a>
+        <a href="desarrolladores/">API</a>
       </nav>
       <a class="btn-nav" href="#descarga">Descargar</a>
     </div>
@@ -41,25 +42,117 @@
 </header>
 
 <main>
-  <div class="hero">
-    <div class="wrap hero-int">
+  <div class="hero hero-ficha">
+    <div class="hero-texto">
+      <p class="sello"><img src="assets/cuflora.svg" alt="" width="96" height="96"><span class="nombre">CuFlora</span></p>
       <h1>Colecciones vivas, ubicadas y con historial</h1>
-      <div class="hero-abajo">
-        <div>
-          <p class="lead">CuFlora gestiona plantas y árboles de jardines etnobiológicos: catálogo taxonómico, mapas sobre ortofotos de dron y reportes de campo que dan trazabilidad geográfica y temporal a cada ejemplar.</p>
-          <p class="hero-datos mono"><span>8 categorías de reporte</span><span>40+ subtipos</span><span>georreferenciación de bajo costo</span><span>sin SIG comercial</span></p>
-          <div class="hero-cta">
-            <a class="btn" href="https://github.com/LaBoa99/cuflora-info/releases/latest/download/cuflora.apk" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"/></svg>Descargar para Android</a>
-            <a class="btn sec" href="#la-app">Ver la app</a>
+      <p class="lead">Cada planta del jardín con su especie, su lugar exacto y su historia, en tu teléfono.</p>
+      <div class="hero-cta">
+        <a class="btn" href="https://github.com/LaBoa99/cuflora-info/releases/latest/download/cuflora.apk" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"/></svg>Descargar para Android</a>
+        <a class="btn sec" href="#la-app">Ver la app</a>
+      </div>
+      <p class="hero-meta mono">APK v1.2.1 · 56 MB · Android 7 o superior</p>
+    </div>
+    <div class="hero-ejemplar" aria-hidden="true">
+      <div class="campo" id="campo">
+        <div class="orto">
+          <div class="lienzo">
+            <img src="assets/ortofoto-jardin-2560.webp" srcset="assets/ortofoto-jardin-1280.webp 1280w, assets/ortofoto-jardin-2560.webp 2560w" sizes="(max-width: 48rem) 200vw, 100vw" alt="" width="2560" height="1445" fetchpriority="high">
+          <i style="--x:60.26%;--y:30.88%"></i>
+          <i style="--x:63.81%;--y:32.17%"></i>
+          <i style="--x:68.07%;--y:36.12%"></i>
+          <i style="--x:69.51%;--y:42.76%"></i>
+          <i style="--x:71.65%;--y:45.41%"></i>
+          <i style="--x:72.37%;--y:48.06%"></i>
+          <i style="--x:66.71%;--y:52.13%"></i>
+          <i style="--x:64.58%;--y:50.82%"></i>
+          <i style="--x:63.16%;--y:49.51%"></i>
+          <i style="--x:61.74%;--y:48.19%"></i>
+          <i style="--x:59.62%;--y:49.55%"></i>
+          <i style="--x:58.93%;--y:54.89%"></i>
+          <i style="--x:57.51%;--y:56.23%"></i>
+          <i style="--x:56.83%;--y:62.9%"></i>
+          <i style="--x:55.42%;--y:65.58%"></i>
+          <i style="--x:58.98%;--y:70.87%"></i>
+          <i style="--x:60.4%;--y:70.86%"></i>
+          <i style="--x:66.8%;--y:76.12%"></i>
+          <i style="--x:68.88%;--y:64.1%"></i>
+          <i style="--x:68.17%;--y:62.77%"></i>
+          <i style="--x:72.43%;--y:65.4%"></i>
+          <i style="--x:74.59%;--y:76.03%"></i>
+          <i style="--x:63.88%;--y:53.49%"></i>
+          <i style="--x:61.0%;--y:41.54%"></i>
+          <i style="--x:58.87%;--y:40.22%"></i>
+            <span class="mira"></span>
           </div>
-          <p class="hero-meta mono">APK v1.2.1 · 56 MB · Android 7 o superior</p>
         </div>
-        <div class="hero-art tel">
-          <img src="assets/capturas/mapa.webp" alt="Pantalla del mapa de CuFlora: ortofoto del Jardín de Agaves con un punto por cada ejemplar" width="610" height="1356" fetchpriority="high">
-        </div>
+      </div>
+      <div class="ficha">
+        <b>Agave lophantha</b>
+        <dl><dt>Zona</dt><dd>Jardín de Agaves, CUValles</dd><dt>Coordenadas</dt><dd>20.540420, −103.965750</dd><dt>Historial</dt><dd>Reportes de campo en línea de tiempo</dd></dl>
+        <p>25 agaves ubicados sobre la ortofoto de dron del 17 nov 2026</p>
       </div>
     </div>
   </div>
+
+  <section id="la-app" style="background: var(--lima)">
+    <div class="wrap">
+      <div class="carr-cab">
+        <h2>Así se ve en el teléfono</h2>
+        <div class="carr-ctrl">
+          <button type="button" class="carr-btn" data-dir="-1" aria-label="Pantalla anterior">←</button>
+          <span class="carr-cuenta" aria-live="polite">1 / 4</span>
+          <button type="button" class="carr-btn" data-dir="1" aria-label="Pantalla siguiente">→</button>
+        </div>
+      </div>
+      <div class="carrusel" tabindex="0" aria-roledescription="carrusel" aria-label="Pantallas de la app">
+        <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="1 de 4: Mapa">
+          <div>
+            <h3>Mapa</h3>
+            <ul class="acciones">
+          <li>Ver cada ejemplar sobre la ortofoto de dron del jardín</li>
+          <li>Tocar un punto para abrir su ficha</li>
+          <li>Ver tu ubicación GPS con su círculo de precisión</li>
+        </ul>
+          </div>
+          <div class="tel"><img src="assets/capturas/mapa.webp" alt="Mapa con la ortofoto del Jardín de Agaves y un punto por ejemplar" width="610" height="1356" loading="lazy"></div>
+        </div>
+        <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="2 de 4: Ficha del ejemplar">
+          <div>
+            <h3>Ficha del ejemplar</h3>
+            <ul class="acciones">
+          <li>Consultar su familia, género y especie</li>
+          <li>Revisar su origen, condición y fecha de plantación</li>
+          <li>Ver sus fotos con quién las tomó y cuándo</li>
+        </ul>
+          </div>
+          <div class="tel"><img src="assets/capturas/ficha.webp" alt="Ficha de un agave con taxonomía, datos biológicos y ubicación" width="610" height="1356" loading="lazy"></div>
+        </div>
+        <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="3 de 4: Reportes de campo">
+          <div>
+            <h3>Reportes de campo</h3>
+            <ul class="acciones">
+          <li>Levantar un reporte con fotos, mediciones y la lectura GPS</li>
+          <li>Ver todos los reportes o solo los de lo que sigues</li>
+          <li>Corregir una medición sin borrar la original</li>
+        </ul>
+          </div>
+          <div class="tel"><img src="assets/capturas/reporte.webp" alt="Detalle de un reporte de estado vital con autor y fecha" width="610" height="1356" loading="lazy"></div>
+        </div>
+        <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="4 de 4: Evolución">
+          <div>
+            <h3>Evolución</h3>
+            <ul class="acciones">
+          <li>Ver su última medición y cuánto cambió</li>
+          <li>Seguir la gráfica de todas sus mediciones</li>
+          <li>Medir la altura de un árbol con la cámara del teléfono</li>
+        </ul>
+          </div>
+          <div class="tel"><img src="assets/capturas/evolucion.webp" alt="Gráfica de la evolución de la altura de un agave" width="610" height="1356" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="panel" id="que-es">
     <div class="wrap sec-grid">
@@ -82,126 +175,152 @@
         </div>
       </dl>
     </div>
-  </section>
-
-  <section class="panel flujo-lima" id="como-funciona" style="background: var(--lima)">
-    <div class="wrap flujo">
-      <div class="sec-head">
-        <h2>De la observación a la notificación</h2>
+    <figure class="wrap escalas-fig">
+      <figcaption class="escalas-pie"><b>Posición geográfica, a tres escalas.</b> La misma ortofoto de dron del vuelo del 17 nov 2026, del campus a cada agave; el recuadro lima marca lo que se ve en la siguiente.</figcaption>
+      <div class="escalas">
+      <figure>
+        <div class="toma" style="aspect-ratio: 600 / 1139">
+          <img src="assets/ortofoto-campus.webp" alt="Ortofoto de dron del campus CUValles completo" width="600" height="1139" loading="lazy">
+          <span class="marco" style="left: 64.1%; top: 12.8%; width: 34.3%; height: 10.2%"></span>
+        </div>
+        <figcaption><b>Campus CUValles</b> 820 m de largo</figcaption>
+      </figure>
+      <figure>
+        <div class="toma" style="aspect-ratio: 2560 / 1445">
+          <img src="assets/ortofoto-jardin-1280.webp" alt="Ortofoto del Jardín de Agaves" width="1280" height="723" loading="lazy">
+          <span class="marco" style="left: 62.2%; top: 63.7%; width: 11.6%; height: 20.6%"></span>
+        </div>
+        <figcaption><b>Jardín de Agaves</b> 145 m de ancho</figcaption>
+      </figure>
+      <figure>
+        <div class="toma" style="aspect-ratio: 1">
+          <img src="assets/ortofoto-agaves.webp" alt="Agaves vistos de cerca en la ortofoto, cada roseta distinguible" width="600" height="600" loading="lazy">
+        </div>
+        <figcaption><b>Agaves</b> 17 m, a 2.8 cm por píxel</figcaption>
+      </figure>
       </div>
-      <ol>
-        <li>
-          <h3>Se levanta el reporte</h3>
-          <p>En campo: categoría, fotos, mediciones fechadas y la lectura GPS del momento, todo desde el teléfono.</p>
-        </li>
-        <li>
-          <h3>Se georreferencia</h3>
-          <p>Una transformación afín calibrada sobre las esquinas de la ortofoto del jardín convierte la posición del ejemplar en la imagen en latitud y longitud reales; las lecturas GPS de campo la contrastan.</p>
-        </li>
-        <li>
-          <h3>Se notifica a los suscriptores</h3>
-          <p>Quienes siguen esa planta, su zona o su mapa completo reciben una notificación con la novedad, y el reporte se suma a la línea de tiempo del ejemplar.</p>
-        </li>
-      </ol>
-    </div>
+    </figure>
   </section>
 
   <section class="panel" id="caracteristicas">
     <div class="wrap sec-grid">
       <div>
-        <h2>Todo el ciclo de la colección viva</h2>
-        <p class="intro">Del catálogo a la exportación de datos, estas capacidades cubren el ciclo completo. Abre cada una para el detalle.</p>
+        <h2>Lo que hay detrás</h2>
+        <p class="intro">Lo que no se ve en la pantalla y hace que los datos sean confiables.</p>
       </div>
-      <div class="acc">
-        <details>
-          <summary><span class="clave mono">Catálogo</span><h3>Catálogo taxonómico</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Jerarquía navegable de familia, género, especie y ejemplar, con fichas e imágenes en cada nivel. Distingue la especie del ejemplar, de modo que una corrección taxonómica se propaga sin rehacer registros.</p>
-        </details>
-        <details>
-          <summary><span class="clave mono">Mapas</span><h3>Mapas de flora</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Mapas propios sobre ortofotos de dron georreferenciadas en QGIS, con zonas poligonales anidadas y puntos. Las zonas pueden tener su propia ortofoto de más detalle y se editan desde la app: dibujar, mover vértices, anidar submapas y colocar cada ejemplar. Con el vuelo de dron del campus se distingue cada planta (~10 cm por píxel), “Mi ubicación” muestra tu posición GPS con su círculo de precisión sobre la ortofoto, y los teléfonos con poca memoria reciben una versión más ligera del mapa.</p>
-        </details>
-        <details>
-          <summary><span class="clave mono">Reportes</span><h3>Reportes de campo</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Observaciones con fotos y mediciones fechadas, organizadas en un árbol de 8 categorías y más de 40 subtipos, encadenadas en una línea de tiempo por ejemplar. Las respuestas forman hilos: responder a una medición es una corrección (sin borrar el original) y responder a lo demás es un seguimiento. Registro diferenciado para plantas herbáceas/arbustivas y árboles (con medición de DAP).</p>
-        </details>
-        <details open>
-          <summary><span class="clave mono">Georref</span><h3>Georreferenciación de bajo costo</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo">
-            <p>Sin ArcGIS ni Google Maps: la ubicación se resuelve con un modelo matemático propio que corre en el backend. A partir de coordenadas normalizadas [0,1] sobre una imagen aérea del jardín y unos puntos de control (lat/lng):</p>
-            <ol class="pipe">
-              <li><b>Proyección Web Mercator.</b> Los puntos de control pasan a métrico (R = 6 378 137 m).</li>
-              <li><b>Ajuste afín por mínimos cuadrados.</b> Ecuaciones normales resueltas con la regla de Cramer.</li>
-              <li><b>Transformación afín.</b> Lleva cualquier coordenada normalizada de la imagen a Web Mercator.</li>
-              <li><b>Inversa de Mercator.</b> Devuelve la posición a latitud y longitud reales.</li>
-              <li><b>Contraste GPS <span class="opt">(opcional).</span></b> El píxel manda: las lecturas GPS de los reportes abiertos desde el QR del ejemplar se acumulan por media ponderada por precisión (1/σ²) y se contrastan con la posición de la ortofoto; las que se alejan más de 30 m (Haversine) se descartan.</li>
-            </ol>
-          </div>
-        </details>
-        <details>
-          <summary><span class="clave mono">Mediciones</span><h3>Evolución de cada ejemplar</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Altura y demás medidas se grafican en el tiempo, con el historial completo y las correcciones marcadas, para ver cómo crece cada ejemplar entre visitas.</p>
-        </details>
-        <details>
-          <summary><span class="clave mono">Datos</span><h3>Exportación a CSV</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Plantas, reportes y catálogos se exportan a CSV con los mismos filtros de la app —fecha, mapa, taxón— para analizarlos en una hoja de cálculo o en R.</p>
-        </details>
-        <details>
-          <summary><span class="clave mono">Acceso</span><h3>Roles, permisos y bitácora</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Control de acceso orientado a permisos con roles de administración, investigación y consulta. Los cambios y los accesos quedan en bitácora, las sesiones se pueden revocar y los respaldos de la base son automáticos.</p>
-        </details>
-        <details>
-          <summary><span class="clave mono">Avisos</span><h3>Suscripciones y notificaciones</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">Sigue un ejemplar, una zona o un mapa completo y recibe notificaciones push, encoladas para entrega asíncrona y tolerante a fallos.</p>
-        </details>
-        <details>
-          <summary><span class="clave mono">App</span><h3>Cliente ligero, backend-first</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <p class="cuerpo">La app móvil solo captura la observación —texto, foto y lectura GPS— y la remite al gateway: la lógica, la validación y el procesamiento viven en el backend, lo que mantiene el cliente simple y reemplazable.</p>
-        </details>
-      </div>
+      <dl class="defs">
+        <div>
+          <dt>Georreferenciación propia</dt>
+          <dd>Sin ArcGIS ni Google Maps: un modelo matemático propio, que corre en el backend, lleva cada punto de la ortofoto a latitud y longitud, y las lecturas GPS de campo lo contrastan.</dd>
+        </div>
+        <div>
+          <dt>Exportación a CSV</dt>
+          <dd>Plantas, reportes y catálogos se exportan con los mismos filtros de la app —fecha, mapa, taxón— para analizarlos en una hoja de cálculo o en R.</dd>
+        </div>
+        <div>
+          <dt>Roles, permisos y bitácora</dt>
+          <dd>Roles de administración, investigación y consulta, con permisos que se ajustan por persona desde el panel web de administración. Los cambios y los accesos (con su IP) quedan en bitácora, las sesiones se pueden revocar y los respaldos de la base son automáticos. El registro exige correo institucional y bloquea bots.</dd>
+        </div>
+        <div>
+          <dt>Notificaciones</dt>
+          <dd>Sigue un ejemplar, una zona o un mapa completo y recibe avisos push, encolados para entrega asíncrona y tolerante a fallos.</dd>
+        </div>
+        <div>
+          <dt>Cliente ligero</dt>
+          <dd>La app solo captura la observación —texto, foto y lectura GPS—; la lógica, la validación y el procesamiento viven en el backend. La ortofoto se ajusta a la memoria de cada teléfono y se guarda para usarla en campo.</dd>
+        </div>
+        <div>
+          <dt>Para cualquier jardín</dt>
+          <dd>Otro jardín puede montar su propio servidor y encender solo los módulos que necesita; la app se conecta a él eligiendo el servidor al iniciar sesión, sin recompilar.</dd>
+        </div>
+        <div>
+          <dt>API para desarrolladores</dt>
+          <dd>Plantas, taxonomía, mapas y reportes se leen con una llave de solo lectura que se crea desde el Perfil de la app. <a href="desarrolladores/">Ver la documentación</a>.</dd>
+        </div>
+      </dl>
     </div>
   </section>
 
-  <section class="panel" id="la-app">
+  <section class="panel-tinta" id="stack">
+    <div class="wrap">
+      <h2>Arquitectura de microservicios</h2>
+      <p class="intro">La app móvil —único cliente de referencia— habla por HTTPS con un API Gateway (BFF) que valida el token y enruta por TCP a microservicios aislados: usuarios, plantas y mapas, reportes, imágenes y notificaciones. El backend expone una API consumible por distintos clientes.</p>
+      <p class="rec-actual" aria-hidden="true">Ejemplo: <b>Reportar una planta</b></p>
+      <p class="rec-texto" aria-live="polite">El gateway revisa el token y el permiso para reportar; Reportes guarda la observación, Plantas y mapas dice en qué zona y mapa está el ejemplar, y Notificaciones avisa a quien los sigue.</p>
+      <div class="diagrama" role="img" aria-label="La app móvil se conecta por NGINX al API Gateway, que enruta a cinco microservicios: usuarios, plantas y mapas, reportes, imágenes y notificaciones, cada uno con su base de datos.">
+        <div class="nodo"><b>App móvil</b><span>Expo · React Native</span></div>
+        <div class="flecha"><i class="pulso"></i></div>
+        <div class="nodo"><b>NGINX</b><span>Terminación TLS</span></div>
+        <div class="flecha"><i class="pulso"></i></div>
+        <div class="nodo gateway"><b>API Gateway</b><span>NestJS · JWT · permisos</span></div>
+        <div class="flecha"><i class="pulso"></i></div>
+        <ul class="servicios">
+            <li class="nodo" data-svc="usuarios"><b>Usuarios</b><span>Cuentas, permisos y bitácora</span><span class="base">MariaDB</span></li>
+            <li class="nodo" data-svc="plantas"><b>Plantas y mapas</b><span>Taxonomía, ortofotos y georreferencia</span><span class="base">MariaDB</span></li>
+            <li class="nodo" data-svc="reportes"><b>Reportes</b><span>Reportes, hilos y mediciones</span><span class="base">MariaDB</span></li>
+            <li class="nodo" data-svc="imagenes"><b>Imágenes</b><span>Fotos con autor y hora</span><span class="base">MariaDB</span></li>
+            <li class="nodo" data-svc="notificaciones"><b>Notificaciones</b><span>Suscripciones y avisos push</span><span class="base">MongoDB · BullMQ</span></li>
+        </ul>
+      </div>
+      <details class="tecnologias">
+        <summary>Ver todas las tecnologías</summary>
+        <table class="stack-tabla">
+        <tbody>
+          <tr><th scope="row">Cliente móvil</th><td>Expo · React Native</td></tr>
+          <tr><th scope="row">Proxy inverso</th><td>NGINX <span class="nota">(terminación TLS)</span></td></tr>
+          <tr><th scope="row">Gateway · Servicios</th><td>NestJS <span class="nota">(REST en el gateway, TCP MessagePattern entre servicios)</span></td></tr>
+          <tr><th scope="row">Mapa</th><td>React Native Skia <span class="nota">(ortofoto y capas)</span></td></tr>
+          <tr><th scope="row">Ortofotos</th><td>Dron · QGIS <span class="nota">(complemento propio que publica la georreferencia)</span></td></tr>
+          <tr><th scope="row">ORM</th><td>TypeORM</td></tr>
+          <tr><th scope="row">Datos</th><td>MariaDB <span class="nota">(relacional)</span> · MongoDB <span class="nota">(notificaciones)</span></td></tr>
+          <tr><th scope="row">Colas</th><td>BullMQ · Redis</td></tr>
+          <tr><th scope="row">Push</th><td>Expo Push API <span class="nota">(sin Firebase)</span></td></tr>
+          <tr><th scope="row">Correo</th><td>Nodemailer · SMTP</td></tr>
+          <tr><th scope="row">Auth</th><td>JWT <span class="nota">(Passport · bcrypt)</span> · RBAC por permisos</td></tr>
+          <tr><th scope="row">Framework interno</th><td>kawi-aa-nestjs <span class="nota">(CRUD, filtros y paginación)</span></td></tr>
+          <tr><th scope="row">Despliegue</th><td>Docker · Compose · Cloudflare</td></tr>
+        </tbody>
+      </table>
+      </details>
+      <a class="btn lima" href="desarrolladores/">Ver la API para desarrolladores →</a>
+    </div>
+  </section>
+
+  <section class="panel" id="preguntas">
     <div class="wrap sec-grid">
       <div>
-        <h2>Así se ve en el teléfono</h2>
-        <p class="intro">Capturas de la app en el Jardín de Agaves del Jardín Etnobiológico de CUValles.</p>
-        <p class="pista mono">Desliza para ver más →</p>
+        <h2>Preguntas frecuentes</h2>
+        <p class="intro">Sobre la instalación, las actualizaciones y el acceso.</p>
       </div>
-      <div class="galeria" tabindex="0" aria-label="Capturas de la app">
-          <figure>
-            <div class="tel"><img src="assets/capturas/mapa.webp" alt="Mapa con la ortofoto del Jardín de Agaves y un punto por ejemplar" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Mapa</strong><span>Zona y ejemplares sobre la ortofoto, con coordenadas al tocar.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/ficha.webp" alt="Ficha de un agave con taxonomía, datos biológicos y ubicación" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Ficha del ejemplar</strong><span>Taxonomía, datos biológicos y su lugar en el mapa.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/wiki.webp" alt="Explorador taxonómico con tarjetas de plantas" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Catálogo taxonómico</strong><span>Explorador de familias, géneros, especies y ejemplares.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/evolucion.webp" alt="Gráfica de la evolución de la altura de un agave" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Evolución</strong><span>La altura de un ejemplar a lo largo del año.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/reporte.webp" alt="Detalle de un reporte de estado vital" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Reporte</strong><span>Cada observación con autor, fecha y fotos.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/seguimiento.webp" alt="Formulario para dar seguimiento a un reporte" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Seguimiento</strong><span>Responder un reporte lo deja enlazado en el hilo.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/correccion.webp" alt="Reporte de corrección de una medición de altura" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Corrección</strong><span>Una medida mal capturada se corrige sin borrar la original.</span></figcaption>
-          </figure>
-          <figure>
-            <div class="tel"><img src="assets/capturas/catalogo-plantas.webp" alt="Catálogo de plantas con filtros por mapa, familia, género y especie" width="610" height="1356" loading="lazy"></div>
-            <figcaption><strong>Catálogo de ejemplares</strong><span>Filtros por mapa y taxón, con exportación a CSV.</span></figcaption>
-          </figure>
+      <div class="acc faq">
+        <details>
+          <summary><h3>¿Hay versión para iPhone?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p>No por ahora. La app se distribuye solo para Android 7.0 o superior con procesador de 64 bits, que son casi todos los teléfonos de los últimos años.</p></div>
+        </details>
+        <details>
+          <summary><h3>¿Por qué no está en Play Store?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p>CuFlora es un proyecto académico en desarrollo y por ahora la usa un grupo cerrado. Distribuir el APK directamente permite publicar cambios sin esperar la revisión de la tienda.</p><p>El archivo siempre se descarga desde GitHub. Para comprobar que no se alteró, compara su huella SHA-256 con la de esta página.</p></div>
+        </details>
+        <details>
+          <summary><h3>¿Cómo actualizo la app?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p>Descarga el APK nuevo desde esta página e instálalo encima. No hace falta desinstalar, y conservas tu sesión y las ortofotos guardadas.</p><p>Si tenías una versión de prueba anterior a la 1.1.0 y Android avisa de un conflicto con el paquete, desinstálala primero: esas versiones se firmaban con otra llave.</p></div>
+        </details>
+        <details>
+          <summary><h3>¿Qué permisos pide y para qué?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p><b>Cámara</b>, para las fotos de los reportes, y <b>ubicación</b>, para la lectura GPS de la observación y para mostrarte en el mapa. Cada foto guarda quién la subió y a qué hora se tomó.</p></div>
+        </details>
+        <details>
+          <summary><h3>¿Funciona sin señal?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p>Las ortofotos se guardan en el teléfono después de verlas por primera vez, así que el mapa carga rápido en campo. Para enviar reportes sí se necesita conexión; si el servidor no responde, la app te avisa.</p></div>
+        </details>
+        <details>
+          <summary><h3>¿Cómo consigo una cuenta?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p>Por ahora el acceso es por invitación: las cuentas las da el equipo del proyecto para controlar quién edita el inventario. Pide la tuya en <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=Cuenta%20CuFlora">claudio.rodriguez4333@alumnos.udg.mx</a>.</p></div>
+        </details>
+        <details>
+          <summary><h3>¿Puedo usar CuFlora en otro jardín?</h3><span class="marcador" aria-hidden="true">+</span></summary>
+          <div class="cuerpo"><p>Sí. El backend se instala en un servidor propio y cada módulo (reportes, imágenes, notificaciones…) se puede apagar si no se necesita. En la app, el servidor se elige al iniciar sesión, sin recompilarla. Para coordinarlo escribe a <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=CuFlora%20en%20otro%20jard%C3%ADn">claudio.rodriguez4333@alumnos.udg.mx</a>.</p></div>
+        </details>
       </div>
     </div>
   </section>
@@ -238,68 +357,7 @@
       </div>
     </div>
   </section>
-
-  <section class="panel" id="preguntas">
-    <div class="wrap sec-grid">
-      <div>
-        <h2>Preguntas frecuentes</h2>
-        <p class="intro">Sobre la instalación, las actualizaciones y el acceso.</p>
-      </div>
-      <div class="acc faq">
-        <details>
-          <summary><h3>¿Hay versión para iPhone?</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo"><p>No por ahora. La app se distribuye solo para Android 7.0 o superior con procesador de 64 bits, que son casi todos los teléfonos de los últimos años.</p></div>
-        </details>
-        <details>
-          <summary><h3>¿Por qué no está en Play Store?</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo"><p>CuFlora es un proyecto académico en desarrollo y por ahora la usa un grupo cerrado. Distribuir el APK directamente permite publicar cambios sin esperar la revisión de la tienda.</p><p>El archivo siempre se descarga desde GitHub. Para comprobar que no se alteró, compara su huella SHA-256 con la de esta página.</p></div>
-        </details>
-        <details>
-          <summary><h3>¿Cómo actualizo la app?</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo"><p>Descarga el APK nuevo desde esta página e instálalo encima. No hace falta desinstalar, y conservas tu sesión y las ortofotos guardadas.</p><p>Si tenías una versión de prueba anterior a la 1.1.0 y Android avisa de un conflicto con el paquete, desinstálala primero: esas versiones se firmaban con otra llave.</p></div>
-        </details>
-        <details>
-          <summary><h3>¿Qué permisos pide y para qué?</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo"><p><b>Cámara</b>, para las fotos de los reportes, y <b>ubicación</b>, para la lectura GPS de la observación y para mostrarte en el mapa. Cada foto guarda quién la subió y a qué hora se tomó.</p></div>
-        </details>
-        <details>
-          <summary><h3>¿Funciona sin señal?</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo"><p>Las ortofotos se guardan en el teléfono después de verlas por primera vez, así que el mapa carga rápido en campo. Para enviar reportes sí se necesita conexión; si el servidor no responde, la app te avisa.</p></div>
-        </details>
-        <details>
-          <summary><h3>¿Cómo consigo una cuenta?</h3><span class="marcador" aria-hidden="true">+</span></summary>
-          <div class="cuerpo"><p>Por ahora el acceso es por invitación: las cuentas las da el equipo del proyecto para controlar quién edita el inventario. Pide la tuya en <a href="mailto:claudio.rodriguez4333@alumnos.udg.mx?subject=Cuenta%20CuFlora">claudio.rodriguez4333@alumnos.udg.mx</a>.</p></div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section class="panel-tinta" id="stack">
-    <div class="wrap sec-grid">
-      <div>
-        <h2>Arquitectura de microservicios</h2>
-        <p class="intro">La app móvil —único cliente de referencia— habla por HTTPS con un API Gateway (BFF) que valida el token y enruta por TCP a microservicios aislados: usuarios, plantas y mapas, reportes, imágenes y notificaciones. El backend expone una API consumible por distintos clientes.</p>
-      </div>
-      <table class="stack-tabla">
-        <tbody>
-          <tr><th scope="row">Cliente móvil</th><td>Expo · React Native</td></tr>
-          <tr><th scope="row">Proxy inverso</th><td>NGINX <span class="nota">(terminación TLS)</span></td></tr>
-          <tr><th scope="row">Gateway · Servicios</th><td>NestJS <span class="nota">(REST en el gateway, TCP MessagePattern entre servicios)</span></td></tr>
-          <tr><th scope="row">Mapa</th><td>React Native Skia <span class="nota">(ortofoto y capas)</span></td></tr>
-          <tr><th scope="row">Ortofotos</th><td>Dron · QGIS <span class="nota">(complemento propio que publica la georreferencia)</span></td></tr>
-          <tr><th scope="row">ORM</th><td>TypeORM</td></tr>
-          <tr><th scope="row">Datos</th><td>MariaDB <span class="nota">(relacional)</span> · MongoDB <span class="nota">(notificaciones)</span></td></tr>
-          <tr><th scope="row">Colas</th><td>BullMQ · Redis</td></tr>
-          <tr><th scope="row">Push</th><td>Expo Push API <span class="nota">(sin Firebase)</span></td></tr>
-          <tr><th scope="row">Correo</th><td>Nodemailer · SMTP</td></tr>
-          <tr><th scope="row">Auth</th><td>JWT <span class="nota">(Passport · bcrypt)</span> · RBAC por permisos</td></tr>
-          <tr><th scope="row">Framework interno</th><td>kawi-aa-nestjs <span class="nota">(CRUD, filtros y paginación)</span></td></tr>
-          <tr><th scope="row">Despliegue</th><td>Docker · Compose · Cloudflare</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</main>
+    </main>
 
 <footer>
   <div class="wrap foot">
@@ -308,5 +366,6 @@
   </div>
 </footer>
 
+<script src="assets/hero.js" defer></script>
 </body>
 </html>

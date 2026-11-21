@@ -100,19 +100,7 @@ main [id] { scroll-margin-top: 4rem; }
   text-transform: uppercase;
   text-wrap: balance;
 }
-.hero-abajo {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: center;
-  margin-top: 0.5rem;
-}
-.hero-abajo > * { min-width: 0; }
-@media (max-width: 48rem) {
-  .hero-int { padding-block: 2.5rem; }
-  .hero-abajo { grid-template-columns: 1fr; }
-  .hero-art { max-width: 15rem; }
-}
+@media (max-width: 48rem) { .hero-int { padding-block: 2.5rem; } }
 .hero p.lead {
   margin-top: 1.3rem;
   font-size: clamp(1.02rem, 1.8vw, 1.18rem);
@@ -145,19 +133,103 @@ main [id] { scroll-margin-top: 4rem; }
 .btn:active { transform: scale(0.98); }
 .btn.sec { background: transparent; color: var(--tinta); }
 .btn.sec:hover { background: rgba(19, 24, 7, 0.06); }
-.hero-art { justify-self: center; width: 100%; max-width: 20rem; border: 1px solid var(--tinta); }
-.hero-art img { display: block; width: 100%; height: auto; }
+.btn.lima { background: var(--lima); color: var(--tinta); border-color: var(--lima); }
 
 @keyframes entra {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
 }
-.hero h1, .hero-abajo > * { animation: entra 480ms var(--ease) backwards; }
-.hero-abajo > div:first-child { animation-delay: 60ms; }
-.hero-abajo > .hero-art { animation-delay: 120ms; }
+.hero h1, .hero-int > * { animation: entra 480ms var(--ease) backwards; }
+.hero-int > :nth-child(n+2) { animation-delay: 60ms; }
+
+/* Hero de la landing: la marca a la izquierda y, a la derecha, un ejemplar real del jardín
+   rastreado sobre la ortofoto de dron, con su ficha debajo (el texto nunca va sobre la foto). */
+.hero-ficha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: min(calc(100svh - 3.5rem), 52rem);
+  border-bottom: 1px solid var(--tinta);
+}
+.hero-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  padding-right: clamp(1.25rem, 4vw, 3.5rem);
+  padding-left: max(clamp(1.25rem, 4vw, 2.5rem), calc((100vw - 64rem) / 2 + clamp(1.25rem, 4vw, 2.5rem)));
+}
+.sello { display: flex; align-items: center; gap: clamp(0.7rem, 1.6vw, 1.1rem); }
+.sello img { width: clamp(3.2rem, 5.5vw, 4.75rem); height: auto; border: 1px solid var(--tinta); }
+.sello .nombre { font-weight: 900; font-stretch: 125%; font-size: clamp(2.6rem, 4.4vw, 4.2rem); line-height: 0.85; letter-spacing: -0.035em; }
+.hero-ficha h1 { margin-top: clamp(1.4rem, 3vw, 2.2rem); font-size: clamp(1.45rem, 2.6vw, 2.2rem); max-width: 16ch; }
+.hero-ficha p.lead { max-width: 30rem; }
+.hero-ejemplar {
+  background: var(--panel);
+  border-left: 1px solid var(--tinta);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.25rem, 4vw, 4rem) clamp(1.25rem, 4vw, 4rem);
+}
+.campo { position: relative; height: clamp(17rem, 30vw, 24rem); border: 1px solid var(--tinta); }
+.orto { position: absolute; inset: 0; overflow: hidden; container-type: size; background: var(--tinta); }
+/* Lienzo con la proporción del recorte (2560×1445) que cubre el campo como object-fit: cover,
+   acercado al Jardín de Agaves; así marcadores y mira no se desalinean a ningún ancho. */
+.lienzo {
+  --fx: 65%;
+  --fy: 53%;
+  position: absolute;
+  aspect-ratio: 2560 / 1445;
+  width: calc(max(100cqw, 100cqh * 1.7716) * 2);
+  left: var(--fx);
+  top: var(--fy);
+  translate: calc(var(--fx) * -1) calc(var(--fy) * -1);
+}
+.lienzo img { display: block; width: 100%; height: 100%; }
+.lienzo i, .mira { position: absolute; left: var(--x); top: var(--y); translate: -50% -50%; }
+.lienzo i {
+  width: 0.8rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--lima);
+  box-shadow: 0 0 0 2px var(--tinta);
+  transition: scale 420ms var(--ease), opacity 420ms var(--ease), box-shadow var(--t-med) var(--ease);
+}
+.anima .lienzo i:not(.puesto) { scale: 0; opacity: 0; }
+.lienzo i.activo { box-shadow: 0 0 0 2px var(--tinta), 0 0 0 10px rgba(166, 247, 80, 0.45); }
+/* La mira recorre la ortofoto como al colocar un ejemplar en la app */
+.mira {
+  z-index: 1;
+  width: 3.25rem;
+  aspect-ratio: 1;
+  border: 2px solid var(--lima);
+  border-radius: 50%;
+  outline: 1px solid var(--tinta);
+  box-shadow: inset 0 0 0 1px var(--tinta);
+  transition: left 900ms var(--ease), top 900ms var(--ease);
+  background:
+    linear-gradient(var(--lima), var(--lima)) center / 2px 70% no-repeat,
+    linear-gradient(var(--lima), var(--lima)) center / 70% 2px no-repeat;
+}
+.campo:not(.anima) .mira { display: none; }
+.ficha { border: 1px solid var(--tinta); border-top: 0; }
+.ficha b { display: block; padding: 0.8rem 1.1rem; background: var(--tinta); color: var(--lima); font-weight: 850; font-stretch: 115%; font-size: clamp(1.15rem, 1.8vw, 1.45rem); line-height: 1.15; }
+.ficha dl { display: grid; grid-template-columns: auto 1fr; }
+.ficha dt, .ficha dd { padding: 0.7rem 0; border-bottom: 1px solid var(--hairline); font-size: 0.95rem; }
+.ficha dt { padding-inline: 1.1rem 1.5rem; font-weight: 700; }
+.ficha dd { padding-right: 1.1rem; color: var(--oliva); font-variant-numeric: tabular-nums; }
+.ficha p { padding: 0.7rem 1.1rem; font-size: 0.88rem; color: var(--oliva); }
+.ficha.cambia > b, .ficha.cambia dd:nth-of-type(2), .ficha.cambia p { animation: entra 360ms var(--ease) backwards; }
+@media (max-width: 48rem) {
+  .hero-ficha { grid-template-columns: 1fr; min-height: 0; }
+  .hero-texto { padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+  .sello .nombre { font-size: clamp(3rem, 13vw, 5rem); }
+  .hero-ejemplar { border-left: 0; border-top: 1px solid var(--tinta); }
+}
 
 /* ---------- Paneles ---------- */
 .panel { background: var(--panel); }
+.panel + .panel { border-top: 1px solid var(--tinta); }
 .panel-tinta { background: var(--tinta); color: #f7faee; }
 section { padding-block: clamp(2.8rem, 6vw, 4.5rem); }
 
@@ -197,6 +269,7 @@ section { padding-block: clamp(2.8rem, 6vw, 4.5rem); }
 @media (max-width: 34rem) { .defs > div { grid-template-columns: 1fr; gap: 0.3rem; } }
 .defs dt { font-weight: 700; font-size: 1rem; line-height: 1.35; }
 .defs dd { color: var(--oliva); font-size: 0.95rem; }
+.defs dd a { color: var(--tinta); font-weight: 650; }
 
 /* Características: revelación progresiva */
 .acc { border-top: 1px solid var(--hairline); }
@@ -214,7 +287,6 @@ section { padding-block: clamp(2.8rem, 6vw, 4.5rem); }
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary:hover { background: rgba(19, 24, 7, 0.035); }
 .acc summary:active { transform: scale(0.995); }
-.acc .clave { color: var(--oliva); }
 .acc h3 { font-weight: 700; font-size: 1.02rem; line-height: 1.3; }
 .acc .marcador {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -239,66 +311,12 @@ section { padding-block: clamp(2.8rem, 6vw, 4.5rem); }
 @media (min-width: 34rem) { .acc .cuerpo { padding-left: 6.5rem; } }
 @media (max-width: 34rem) {
   .acc summary { grid-template-columns: 1fr auto; }
-  .acc .clave { display: none; }
 }
 .acc .cuerpo p { margin: 0; }
 .acc .cuerpo p + p { margin-top: 0.6rem; }
 .acc.faq summary { grid-template-columns: 1fr auto; }
 .acc.faq .cuerpo { padding-left: 0; }
 .acc .cuerpo a { color: var(--tinta); font-weight: 650; }
-.acc .pipe {
-  list-style: none;
-  counter-reset: fase;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-.acc .pipe li {
-  counter-increment: fase;
-  position: relative;
-  padding-left: 1.7rem;
-}
-.acc .pipe li::before {
-  content: counter(fase, upper-alpha);
-  position: absolute;
-  left: 0;
-  top: 0.05em;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--tinta);
-}
-.acc .pipe b { font-weight: 700; color: var(--tinta); }
-.acc .pipe .opt { color: var(--oliva); font-weight: 400; }
-
-/* Flujo: secuencia real sobre lima */
-.flujo ol {
-  list-style: none;
-  counter-reset: paso;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 1.5rem 2rem;
-}
-.flujo li { counter-increment: paso; border-top: 1px solid var(--tinta); padding-top: 1rem; }
-.flujo li::before {
-  content: counter(paso, decimal-leading-zero);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.85rem;
-  color: var(--oliva-lima);
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.flujo h3 { font-weight: 750; font-size: 1.05rem; margin-bottom: 0.3rem; }
-.flujo p { color: var(--oliva-lima); font-size: 0.95rem; max-width: 26rem; }
-.flujo .sec-head { margin-bottom: 2rem; max-width: 34rem; }
-.flujo .sec-head h2 {
-  font-weight: 850;
-  font-stretch: 118%;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
-}
 
 /* Tecnología: tabla de especificación */
 .stack-tabla { width: 100%; border-collapse: collapse; }
@@ -324,6 +342,46 @@ section { padding-block: clamp(2.8rem, 6vw, 4.5rem); }
   .stack-tabla th { width: auto; min-width: 7rem; padding-right: 0.9rem; white-space: normal; }
 }
 .panel-tinta .sec-grid h2 { color: var(--lima); }
+/* Arquitectura: diagrama de la petición (app → NGINX → gateway → servicios) y tabla desplegable */
+#stack h2 { color: var(--lima); font-weight: 850; font-stretch: 118%; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.08; letter-spacing: -0.015em; }
+#stack .intro { margin-top: 0.7rem; max-width: 42rem; color: rgba(247, 250, 238, 0.72); font-size: 0.95rem; line-height: 1.6; }
+.diagrama { margin-top: clamp(2rem, 5vw, 3rem); display: grid; grid-template-columns: auto minmax(1.5rem, 1fr) auto minmax(1.5rem, 1fr) auto minmax(1.5rem, 1fr) minmax(13rem, 1.6fr); align-items: center; }
+.diagrama .nodo { border: 1px solid var(--lima); padding: 0.7rem 0.85rem; transition: background-color var(--t-med) var(--ease), color var(--t-med) var(--ease); }
+.diagrama .nodo b { display: block; color: var(--lima); font-size: 0.98rem; line-height: 1.25; }
+.diagrama .nodo span { display: block; font-size: 0.82rem; color: rgba(247, 250, 238, 0.7); margin-top: 0.15rem; }
+.diagrama .gateway { background: var(--lima); }
+.diagrama .gateway b, .diagrama .gateway span { color: var(--tinta); }
+.diagrama .servicios { list-style: none; display: grid; gap: 0.5rem; }
+.diagrama .servicios .base { color: var(--lima); opacity: 0.85; }
+.diagrama .servicios .nodo.llega { background: var(--lima); }
+.diagrama .servicios .nodo.llega b, .diagrama .servicios .nodo.llega span { color: var(--tinta); }
+.flecha { position: relative; height: 1px; background: var(--lima); margin-inline: 0.4rem; }
+.flecha::after { content: ""; position: absolute; right: -1px; top: -4px; border: 4.5px solid transparent; border-left: 7px solid var(--lima); border-right: 0; }
+.pulso { position: absolute; left: 0; top: 50%; width: 9px; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: var(--lima); box-shadow: 0 0 0 3px var(--tinta), 0 0 0 4px var(--lima); opacity: 0; }
+.diagrama.viaja .flecha:nth-of-type(2) .pulso { animation: viaja 520ms var(--ease) 0ms both; }
+.diagrama.viaja .flecha:nth-of-type(4) .pulso { animation: viaja 520ms var(--ease) 520ms both; }
+.diagrama.viaja .flecha:nth-of-type(6) .pulso { animation: viaja 520ms var(--ease) 1040ms both; }
+@keyframes viaja { 0% { left: 0; opacity: 1; } 99% { left: 100%; opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@media (max-width: 48rem) {
+  .diagrama { grid-template-columns: 1fr; justify-items: start; }
+  .diagrama > .nodo, .diagrama .servicios { width: 100%; }
+  .flecha { width: 1px; height: 1.6rem; margin: 0.3rem 0 0.3rem 1.2rem; }
+  .flecha::after { right: -4px; top: auto; bottom: -1px; border: 4.5px solid transparent; border-top: 7px solid var(--lima); border-bottom: 0; }
+  .pulso { left: 50%; top: 0; }
+  .diagrama.viaja .flecha .pulso { animation-name: baja; }
+  @keyframes baja { 0% { top: 0; opacity: 1; } 99% { top: 100%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
+}
+.rec-actual { margin-top: clamp(1.8rem, 4vw, 2.5rem); color: rgba(247, 250, 238, 0.72); font-size: 0.95rem; }
+.rec-actual b { color: var(--lima); font-size: 1.1rem; }
+.rec-texto { margin-top: 0.4rem; max-width: 46rem; min-height: 3.2em; color: rgba(247, 250, 238, 0.82); font-size: 0.98rem; }
+#stack .diagrama { margin-top: clamp(1.2rem, 3vw, 1.8rem); }
+#stack .btn.lima { margin-top: 1.5rem; }
+.tecnologias { margin-top: clamp(1.8rem, 4vw, 2.5rem); border-top: 1px solid var(--hairline-inv); }
+.tecnologias summary { cursor: pointer; list-style: none; padding-block: 0.9rem; font-weight: 700; color: var(--lima); }
+.tecnologias summary::-webkit-details-marker { display: none; }
+.tecnologias summary::before { content: "+"; display: inline-block; width: 1.2rem; transition: transform var(--t-med) var(--ease); }
+.tecnologias[open] summary::before { transform: rotate(45deg); }
+.tecnologias summary:focus-visible { outline: 2px solid var(--lima); outline-offset: 3px; }
 .panel-tinta .sec-grid .intro { color: rgba(247, 250, 238, 0.72); line-height: 1.6; }
 
 /* Botón de descarga */
@@ -362,26 +420,61 @@ section { padding-block: clamp(2.8rem, 6vw, 4.5rem); }
   aspect-ratio: 610 / 1356;
   background: #181e10;
 }
-.hero-art.tel { max-width: 16rem; }
-@media (max-width: 48rem) { .hero-art.tel { max-width: 13rem; } }
 
-/* La app: galería */
-.galeria {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(10.5rem, 40vw, 13rem);
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 1.2rem;
-  scrollbar-color: var(--tinta) transparent;
+/* Pantallas de la app: carrusel, una pantalla por diapositiva con lo que puedes hacer en ella */
+.carr-cab { display: flex; justify-content: space-between; align-items: end; gap: 1rem; }
+.carr-cab h2 { font-weight: 850; font-stretch: 118%; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.08; letter-spacing: -0.015em; }
+.carr-ctrl { display: flex; align-items: center; gap: 0.6rem; }
+.carr-btn {
+  width: 2.75rem; aspect-ratio: 1; border: 1px solid var(--tinta); background: var(--tinta); color: var(--lima);
+  font: 700 1.1rem Archivo, sans-serif; cursor: pointer;
+  transition: transform var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease);
 }
-.galeria:focus-visible { outline: 2px solid var(--tinta); outline-offset: 4px; }
-.galeria figure { scroll-snap-align: start; }
-.galeria figcaption { margin-top: 0.8rem; }
-.galeria figcaption strong { display: block; font-weight: 700; font-size: 0.95rem; }
-.galeria figcaption span { display: block; color: var(--oliva); font-size: 0.88rem; line-height: 1.45; margin-top: 0.15rem; }
-.pista { margin-top: 0.9rem; color: var(--oliva); }
+.carr-btn:hover { transform: translateY(-1px); }
+.carr-btn:active { transform: scale(0.96); }
+.carr-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.carr-cuenta { min-width: 3.5rem; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.carrusel {
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  border-top: 1px solid var(--tinta);
+}
+.carrusel::-webkit-scrollbar { display: none; }
+.carrusel:focus-visible { outline: 2px solid var(--tinta); outline-offset: 4px; }
+.diapo {
+  scroll-snap-align: start;
+  display: grid; grid-template-columns: minmax(0, 1fr) clamp(10rem, 24vw, 18rem);
+  gap: clamp(1.5rem, 6vw, 4rem); align-items: center;
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+.diapo h3 { font-weight: 850; font-stretch: 115%; font-size: clamp(1.25rem, 2.2vw, 1.6rem); line-height: 1.1; }
+.acciones { list-style: none; margin-top: 1.2rem; max-width: 34rem; }
+.acciones li { display: flex; gap: 0.9rem; align-items: baseline; padding-block: 0.75rem; border-top: 1px solid var(--hairline); font-size: 1.05rem; }
+.acciones li::before { content: ""; flex: none; width: 0.65rem; aspect-ratio: 1; background: var(--tinta); translate: 0 -0.05em; }
+@media (max-width: 34rem) {
+  .diapo { grid-template-columns: minmax(0, 1fr) 9.5rem; align-items: start; }
+  .diapo > div:first-child { display: contents; }
+  .diapo h3 { align-self: center; }
+  .acciones { grid-column: 1 / -1; margin-top: 0; }
+  .diapo .tel { grid-row: 1; grid-column: 2; }
+}
+
+/* Qué es + ortofoto: el vuelo a tres escalas ilustra la posición geográfica; cada columna mide en proporción a su imagen para que las tres tengan la misma altura */
+.escalas-fig { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.escalas-pie { padding-top: 1.4rem; border-top: 1px solid var(--hairline); color: var(--oliva); font-size: 0.95rem; }
+.escalas-pie b { color: var(--tinta); }
+.escalas { margin-top: clamp(1.2rem, 3vw, 1.8rem); display: grid; grid-template-columns: 0.527fr 1.772fr 1fr; gap: clamp(0.6rem, 1.5vw, 1.1rem); align-items: start; }
+.toma { position: relative; border: 1px solid var(--tinta); background: var(--tinta); overflow: hidden; }
+.toma img { display: block; width: 100%; height: 100%; }
+.marco { position: absolute; border: 2px solid var(--lima); box-shadow: 0 0 0 1px var(--tinta); }
+.escalas figcaption { margin-top: 0.6rem; font-size: 0.9rem; color: var(--oliva); line-height: 1.35; }
+.escalas figcaption b { display: block; color: var(--tinta); font-size: 0.98rem; }
+@media (max-width: 40rem) {
+  .escalas { grid-template-columns: 0.527fr 1fr; }
+  .escalas figure:first-child { grid-row: span 2; }
+}
 
 /* Descarga */
 .apk { border: 1px solid var(--tinta); background: var(--panel); padding: 1.4rem; }
@@ -435,3 +528,11 @@ footer { padding-block: 2.2rem; }
   color: var(--oliva-lima);
 }
 .foot a { text-underline-offset: 0.3em; }
+
+/* ---------- Animaciones de entrada (solo con JS y sin "reducir movimiento"; ver hero.js) ---------- */
+.carrusel.vivo .diapo .tel { transition: translate 520ms var(--ease), opacity 520ms var(--ease); }
+.carrusel.vivo .diapo:not(.activa) .tel { translate: 2rem 0; opacity: 0; }
+.carrusel.vivo .acciones li { transition: translate 420ms var(--ease), opacity 420ms var(--ease); transition-delay: calc(120ms + var(--n, 0) * 70ms); }
+.carrusel.vivo .diapo:not(.activa) .acciones li { translate: 0 0.6rem; opacity: 0; transition-delay: 0ms; }
+.defs.revela > div { transition: translate 480ms var(--ease), opacity 480ms var(--ease); transition-delay: calc(var(--n, 0) * 80ms); }
+.defs.revela:not(.visto) > div { translate: 0 0.75rem; opacity: 0; }
